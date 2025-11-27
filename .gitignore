@@ -1,41 +1,82 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
+# ==============================
+# Compiled object files
+# ==============================
 *.o
 *.obj
+*.slo
+*.lo
 
+# ==============================
 # Precompiled Headers
+# ==============================
 *.gch
 *.pch
 
+# ==============================
 # Linker files
+# ==============================
 *.ilk
-
-# Debugger Files
 *.pdb
 
-# Compiled Dynamic libraries
+# ==============================
+# Libraries
+# ==============================
+*.lib
+*.a
+*.la
+*.lai
 *.so
 *.dylib
-*.dll
 
-# Fortran module files
-*.mod
-*.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
+# ==============================
 # Executables
+# ==============================
 *.exe
 *.out
 *.app
 
-# debug information files
+# ==============================
+# Debug information files
+# ==============================
 *.dwo
+
+# ==============================
+# IDE/Editor files
+# ==============================
+*.vcxproj*
+*.user
+*.opensdf
+*.sdf
+*.ipch
+*.db
+*.VC.db
+*.idea/
+*.vscode/
+Coursework2/.vs/
+
+
+# ==============================
+# Build directories (relative to repo root)
+# ==============================
+Coursework2/coursework2/Debug/
+Coursework2/coursework2/Release/
+Coursework2/coursework2/build/
+Coursework2/coursework2/bin/
+Coursework2/coursework2/x64/
+Coursework2/OpenGL/include/glm/doc/
+
+# ==============================
+# CMake generated files
+# ==============================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# ==============================
+# Misc
+# ==============================
+*.log
+*.tmp
+*.temp
