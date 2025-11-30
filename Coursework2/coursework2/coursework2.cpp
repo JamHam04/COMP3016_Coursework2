@@ -6,18 +6,11 @@
 #include "glm/glm/ext/vector_float3.hpp"
 #include "glm/glm/ext/matrix_transform.hpp"
 #include "glm/glm/gtc/type_ptr.hpp"
+#include "Obstacle.h"
+
 
 using namespace std;
 using namespace glm;
-
-
-// Vertex Array Objects
-enum VAO_IDs { Triangles, Indicies, NumVAOs = 4 }; 
-GLuint VAOs[NumVAOs]; 
-
-// Element Array Buffer
-enum Buffer_IDs { ArrayBuffer, NumBuffers = 8 }; 
-GLuint Buffers[NumBuffers];
 
 // Shader program
 GLuint program;
@@ -40,27 +33,30 @@ vec3 playerPosition = vec3(0.0f, 0.0f, 0.0f);
 float deltaTime = 0.0f;	
 float lastFrame = 0.0f;
 
-void createNewObject(float* objVertices, size_t vertexCount, unsigned int* objIndices, size_t indexCount, GLuint vaoIndex)
-{
-	// VAO generation and binding
-	glBindVertexArray(VAOs[vaoIndex]);
+// Game object struct
 
-	// Bind vertex positions
-	glBindBuffer(GL_ARRAY_BUFFER, Buffers[Triangles]);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount, objVertices, GL_STATIC_DRAW);
-	// Bind indices
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffers[Indicies]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount, objIndices, GL_STATIC_DRAW);
 
-	// Vertex attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	//Unbinding
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+//void createNewObject(float* objVertices, size_t vertexCount, unsigned int* objIndices, size_t indexCount, GLuint vaoIndex, GLuint vboIndex, GLuint eboIndex)
+//{
+//	// VAO generation and binding
+//	glBindVertexArray(VAOs[vaoIndex]);
+//
+//	// Bind vertex positions
+//	glBindBuffer(GL_ARRAY_BUFFER, Buffers[vboIndex]);
+//	glBufferData(GL_ARRAY_BUFFER, vertexCount, objVertices, GL_STATIC_DRAW);
+//	// Bind indices
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffers[eboIndex]);
+//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount, objIndices, GL_STATIC_DRAW);
+//
+//	// Vertex attributes
+//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//	glEnableVertexAttribArray(0);
+//
+//	//Unbinding
+//	glBindVertexArray(0);
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//}
 
 int main()
 {
@@ -137,18 +133,11 @@ int main()
 	GLint colourLocation = glGetUniformLocation(program, "colourIn");
 	glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
 
-
-	// VAO generation and binding
-	glGenVertexArrays(NumVAOs, VAOs);
-
-	// Buffer generation
-	glGenBuffers(NumBuffers, Buffers);
-
-	// Create the rectangle object
-	createNewObject(vertices, sizeof(vertices), indices, sizeof(indices), 0);
-	// Create another object
-	///createNewObject(objectVertices, 12, objectIndices, 1);
-
+	//// Create the rectangle object
+	//createNewObject(vertices, sizeof(vertices), indices, sizeof(indices), 0, 0, 1);
+	//// Create another object
+	//createNewObject(objectVertices, sizeof(objectVertices), objectIndices, sizeof(objectIndices), 1, 1, 2);
+	Obstacle rectangle(vertices, sizeof(vertices), indices, sizeof(indices));
 
 	// Main loop
 	while (!glfwWindowShouldClose(window))
@@ -179,11 +168,11 @@ int main()
 		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
 		//Drawing
-		glBindVertexArray(VAOs[0]);
+		glBindVertexArray(rectangle.VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // Draw the rectangle (Triangles, 6 indices, type, offset 0)
 
-		/*glBindVertexArray(VAOs[1]);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
+		//glBindVertexArray(VAOs[1]);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 		// Swap buffers and poll events
