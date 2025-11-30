@@ -33,31 +33,6 @@ vec3 playerPosition = vec3(0.0f, 0.0f, 0.0f);
 float deltaTime = 0.0f;	
 float lastFrame = 0.0f;
 
-// Game object struct
-
-
-//void createNewObject(float* objVertices, size_t vertexCount, unsigned int* objIndices, size_t indexCount, GLuint vaoIndex, GLuint vboIndex, GLuint eboIndex)
-//{
-//	// VAO generation and binding
-//	glBindVertexArray(VAOs[vaoIndex]);
-//
-//	// Bind vertex positions
-//	glBindBuffer(GL_ARRAY_BUFFER, Buffers[vboIndex]);
-//	glBufferData(GL_ARRAY_BUFFER, vertexCount, objVertices, GL_STATIC_DRAW);
-//	// Bind indices
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffers[eboIndex]);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount, objIndices, GL_STATIC_DRAW);
-//
-//	// Vertex attributes
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//	glEnableVertexAttribArray(0);
-//
-//	//Unbinding
-//	glBindVertexArray(0);
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//}
-
 int main()
 {
 	// Window Size
@@ -106,17 +81,38 @@ int main()
 	
 	// Rectangle 
 	float vertices[] = { 
-		0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
+	// Width, Height, Depth
+		-0.3f, -0.3f, -0.3f,
+		 0.3f, -0.3f, -0.3f,
+		 0.3f,  0.3f, -0.3f,
+		-0.3f,  0.3f, -0.3f,
+
+		 0.3f, -0.3f,  0.3f,
+		-0.3f, -0.3f,  0.3f,
+		-0.3f,  0.3f,  0.3f,
+		 0.3f,  0.3f,  0.3f
 	};
 
 	unsigned int indices[] = { 
-	0, 1, 3, 
-	1, 2, 3 
+		// Back face
+		0, 1, 2,
+		2, 3, 0,
+		// Front face
+		4, 5, 6,
+		6, 7, 4,
+		// Left face
+		5, 0, 3,
+		3, 6, 5,
+		// Right face
+		1, 4, 7,
+		7, 2, 1,
+		// Bottom face
+		5, 4, 1,
+		1, 0, 5,
 	};
 
+
+	// Rectangle 2
 	float objectVertices[] = {     
 		0.3f, 0.3f, 0.0f,
 		0.3f, -0.3f, 0.0f,
@@ -129,19 +125,22 @@ int main()
 		1, 2, 3 
 	};
 
-	// Set Colour
+	// Set Colour location
 	GLint colourLocation = glGetUniformLocation(program, "colourIn");
-	glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
-
-	//// Create the rectangle object
-	//createNewObject(vertices, sizeof(vertices), indices, sizeof(indices), 0, 0, 1);
-	//// Create another object
+	
 	//createNewObject(objectVertices, sizeof(objectVertices), objectIndices, sizeof(objectIndices), 1, 1, 2);
-	Obstacle rectangle(vertices, sizeof(vertices), indices, sizeof(indices));
+	GLsizei indexCount = sizeof(indices) / sizeof(indices[0]);
+	GLsizei rectangle2IndexCount = sizeof(objectIndices) / sizeof(objectIndices[0]);
+	Obstacle rectangle(vertices, sizeof(vertices), indices, indexCount, glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
+	Obstacle rectangle2(objectVertices, sizeof(objectVertices), objectIndices, rectangle2IndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f);
+
+	
+	float objectZPosition = -5.0f;
 
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
+
 		// Timing
 		float currentFrame = static_cast<float>(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
@@ -167,12 +166,31 @@ int main()
 		GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
 		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
-		//Drawing
-		glBindVertexArray(rectangle.VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // Draw the rectangle (Triangles, 6 indices, type, offset 0)
+		////Drawing
+		glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
+		rectangle.draw();
 
-		//glBindVertexArray(VAOs[1]);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glUniform4f(colourLocation, 1.0f, 0.75f, 0.5f, 1.0f);
+
+		//model = mat4(1.0f);
+		//
+		//objectZPosition += deltaTime;
+		//model = translate(model, vec3(0.0f, 0.0f, objectZPosition)); 
+		//mvp = projection * view * model;
+		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+
+		model = mat4(1.0f);
+		rectangle2.updatePosition(deltaTime);
+		model = translate(model, rectangle2.getPosition()); 
+		mvp = projection * view * model;
+		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+		rectangle2.draw();
+		if (rectangle2.getPosition().z > 3.0f)
+		{
+			rectangle2 = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, rectangle2IndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f); // Reset position
+		}
+		
+
 
 
 		// Swap buffers and poll events
@@ -197,7 +215,6 @@ void processUserInput(GLFWwindow* WindowIn)
 	float movementSpeed = 1.0f * deltaTime; 
 
 	// Boundary
-
 
 
 	// Close window

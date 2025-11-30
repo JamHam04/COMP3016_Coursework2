@@ -2,37 +2,23 @@
 
 #include <GL/glew.h>
 
+#include "glm/glm/ext/vector_float3.hpp"
+#include "glm/glm/ext/matrix_transform.hpp"
+ 
 class Obstacle
 {
 private:
-    
+    GLuint VAO;
     GLuint VBO;
     GLuint EBO;
+    GLsizei indexCount;
+	glm::vec3 position;
+	float moveSpeed;
 
 public:
-    GLuint VAO;
-    Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexSize)
-    {
-		// Assign buffers
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &EBO);
-
-		// Bind VAO
-        glBindVertexArray(VAO);
-
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, vertexCount, objVertices, GL_STATIC_DRAW);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, objIndices, GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-
-        glBindVertexArray(0);
-
-
-    }
-
-};
+    
+    Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed);
+    void draw() const;
+	void updatePosition(float deltaTime);
+    glm::vec3 getPosition() const { return position; }
+}; 
