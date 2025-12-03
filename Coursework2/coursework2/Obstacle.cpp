@@ -1,6 +1,7 @@
 #include "Obstacle.h"
 
-Obstacle::Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed) : indexCount(indexCount), position(position), moveSpeed(moveSpeed)
+Obstacle::Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount)
+	: indexCount(indexCount), position(position), moveSpeed(moveSpeed), rotationAngle(rotationAngle), rotationAxis(rotationAxis), rotationSpeed(rotationSpeed), scaleAmount(scaleAmount)
 {
     // Assign buffers
     glGenVertexArrays(1, &VAO);
@@ -26,6 +27,8 @@ Obstacle::Obstacle(const float* objVertices, size_t vertexCount, const unsigned 
 
  void Obstacle::draw() const
 {
+    // model
+
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 }
@@ -33,4 +36,16 @@ Obstacle::Obstacle(const float* objVertices, size_t vertexCount, const unsigned 
  void Obstacle::updatePosition(float deltaTime)
  {
      position.z += moveSpeed * deltaTime;
+	 //rotationAngle += rotationSpeed * deltaTime; 
+ }
+
+ // Set model
+ glm::mat4 Obstacle::getModel()
+ {
+     glm::mat4 model = glm::mat4(1.0f);
+     model = glm::translate(model, position);
+	 model = glm::rotate(model, rotationAngle, rotationAxis);
+     model = scale(model, scaleAmount);
+	 return model;
+
  }
