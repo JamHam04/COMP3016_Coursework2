@@ -21,5 +21,6 @@ public:
 	void updatePosition(glm::vec3 moveDirection, float deltaTime);
 	glm::vec3 getPosition() const { return position; }
 	glm::mat4 getModel();
+	glm::vec3 getScale() const { return scaleAmount; }
 };
 

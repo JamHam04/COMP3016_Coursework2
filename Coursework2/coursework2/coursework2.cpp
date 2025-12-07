@@ -9,6 +9,9 @@
 #include "Obstacle.h"
 #include "Player.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 
 using namespace std;
 using namespace glm;
@@ -27,12 +30,9 @@ vec3 cameraPosition = vec3(0.0f, 0.0f, 1.0f);
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
-
 // Game timing
 float deltaTime = 0.0f;	
 float lastFrame = 0.0f;
-
-
 
 
 
@@ -115,38 +115,59 @@ int main()
 	};
 
 
-	float objectVertices[] = {
-		// Square obstacle border 
-		 0.3f,  0.3f, 0.0f,  
-		 0.3f, -0.3f, 0.0f, 
-		-0.3f, -0.3f, 0.0f,  
-		-0.3f,  0.3f, 0.0f, 
 
-		// hole
-		 0.2f,  0.1f, 0.0f, 
-		 0.2f, -0.1f, 0.0f,  
-		-0.2f, -0.1f, 0.0f,  
-		-0.2f,  0.1f, 0.0f,  
+	float depth = 0.5f;
+	float objectVertices[] = {
+		// FRONT FACE 
+		 0.5f,  0.0f,       -depth ,  
+		 0.25f, 0.4f,      -depth, 
+		-0.25f, 0.4f,      -depth, 
+		-0.5f,  0.0f,       -depth,   
+		-0.25f,-0.4f,      -depth,   
+		 0.25f,-0.4f,      -depth,
+
+		 // BACK FACE
+		  0.5f,  0.0f,        depth,  
+		  0.2f, 0.4f,       depth, 
+		 -0.2f, 0.4f,       depth,  
+		 -0.5f,  0.0f,        depth, 
+		 -0.2f,-0.4f,       depth,  
+		  0.2f,-0.4f,       depth  
 	};
 
+
 	unsigned int objectIndices[] = {
-		0, 1, 5,  0, 5, 4,  
-		1, 2, 6,  1, 6, 5,  
-		2, 3, 7,  2, 7, 6,
-		3, 0, 4,  3, 4, 7  
+		// FRONT FACE
+		0, 1, 2,
+		0, 2, 3,
+		0, 3, 4,
+		0, 4, 5,
+
+		// BACK FACE 
+		6, 8, 7,
+		6, 9, 8,
+		6,10, 9,
+		6,11,10,
+
+		// SIDES
+		0, 1, 7,   0, 7, 6,
+		1, 2, 8,   1, 8, 7,
+		2, 3, 9,   2, 9, 8,
+		3, 4,10,   3,10, 9,
+		4, 5,11,   4,11,10,
+		5, 0, 6,   5, 6,11
 	};
 
 	// Set locations
 	GLint colourLocation = glGetUniformLocation(program, "colourIn");
 	GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
 
+	size_t obstacleVertexCount = (sizeof(objectVertices) / sizeof(objectVertices[0]) / 3);
 	GLsizei playerIndexCount = sizeof(playerIndices) / sizeof(playerIndices[0]);
 	GLsizei obstacleIndexCount = sizeof(objectIndices) / sizeof(objectIndices[0]);
 	Player player(playerVertices, sizeof(playerVertices), playerIndices, playerIndexCount, glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.5f)); // Change to player class 
 	Obstacle obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
 
-
-	
 	glEnable(GL_DEPTH_TEST);
 	// Main loop
 	while (!glfwWindowShouldClose(window))
@@ -162,8 +183,12 @@ int main()
 		// Input
 		processUserInput(window, player, deltaTime);
 
+		// cam follew player (TESTING)
+		cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
+
+
 		// Collision detection
-		if (playerObstacleCollision(player, obstacle))
+		if (playerObstacleCollision(player, obstacle, objectVertices, obstacleVertexCount))
 		{
 			cout << "Player collided" << endl;
 			break; 
@@ -183,6 +208,7 @@ int main()
 		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
 		////Drawing
+		glUniform1i(useTextureLoc, 0);
 		glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
 		player.draw();
 
@@ -198,7 +224,7 @@ int main()
 		// Reset obstacle position
 		if (obstacle.getPosition().z > 3.0f)
 		{
-			obstacle = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f, 1.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
+			obstacle = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
 		}
 
 
@@ -207,32 +233,67 @@ int main()
 		glfwPollEvents();
 	}
 
+	
+
 	glfwTerminate();
 	return 0;
 }
 
+
+
 // Collision detection
-bool playerObstacleCollision(Player player, Obstacle obstacle)
+bool playerObstacleCollision(Player player, Obstacle obstacle, float verticies[], size_t vertexCount)
 {
 	vec3 playerPosition = player.getPosition();
 	vec3 obstaclePosition = obstacle.getPosition();
 
+	// Get obstacle model
+	vec3 obstacleScale = obstacle.getScale();
+
 	// Player and obstacle sizes
-	float playerSize = 0.1f; // Half-size of player cube
-	float obstacleSize = 0.3f; // Half-size of obstacle cube
+	vec3 playerSize = player.getScale() * 0.1f; 
 
 
-	if (abs(playerPosition.x - obstaclePosition.x) < (playerSize + obstacleSize)&&
-		abs(playerPosition.y - obstaclePosition.y) < (playerSize + obstacleSize)&&
-		abs(playerPosition.z - obstaclePosition.z) < (playerSize + obstacleSize)) 
+	float minX = verticies[0] * obstacleScale.x + obstaclePosition.x; 
+	float minY = verticies[1] * obstacleScale.y + obstaclePosition.y;
+	float minZ = verticies[2] * obstacleScale.z + obstaclePosition.z;
+	float maxX = verticies[0];
+	float maxY = verticies[1];
+	float maxZ = verticies[2];
+
+	// Use vertices and indices
+	for (size_t i = 1; i < vertexCount; i ++)
+	{
+		float vertexY = verticies[i * 3 + 1] * obstacleScale.y + obstaclePosition.y;
+		float vertexZ = verticies[i * 3 + 2] * obstacleScale.z + obstaclePosition.z;
+
+		if (vertexX < minX) minX = vertexX; // min x
+		if (vertexY < minY) minY = vertexY; // min y
+		if (vertexZ < minZ) minZ = vertexZ; // min z
+
+		if (vertexX > maxX) maxX = vertexX; // max x
+		if (vertexY > maxY) maxY = vertexY; // max y
+		if (vertexZ > maxZ) maxZ = vertexZ; // max z
+
+	}
+
+	//std::cout << "Obstacle Min: (" << minX << ", " << minY << ", " << minZ << ")" << std::endl;
+	//std::cout << "Obstacle Max: (" << maxX << ", " << maxY << ", " << maxZ << ")" << std::endl;
+
+	// Check player and obstacle collision
+		playerPosition.y + playerSize.y > minY && playerPosition.y - playerSize.y < maxY &&
+		playerPosition.z + playerSize.z > minZ && playerPosition.z - playerSize.z < maxZ)
 	{
 		return true;
 	}
-	else
-	{
+	else {
 		return false;
 	}
+
 }
+
+
+
 
 // Callback function called on window resize
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

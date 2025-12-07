@@ -1,7 +1,7 @@
 #include "Obstacle.h"
 
 Obstacle::Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount)
-	: indexCount(indexCount), position(position), moveSpeed(moveSpeed), rotationAngle(rotationAngle), rotationAxis(rotationAxis), rotationSpeed(rotationSpeed), scaleAmount(scaleAmount)
+	: vertexCount(vertexCount), indexCount(indexCount), position(position), moveSpeed(moveSpeed), rotationAngle(rotationAngle), rotationAxis(rotationAxis), rotationSpeed(rotationSpeed), scaleAmount(scaleAmount)
 {
     // Assign buffers
     glGenVertexArrays(1, &VAO);

@@ -10,4 +10,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 // Process user input 
 void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime);
 
-bool playerObstacleCollision(Player player, Obstacle obstacle);
+bool playerObstacleCollision(Player player, Obstacle obstacle, float verticies[], size_t vertexCount);

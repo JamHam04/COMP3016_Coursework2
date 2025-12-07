@@ -14,6 +14,7 @@ private:
     GLsizei indexCount;
 	glm::vec3 position;
 	float moveSpeed;
+	size_t vertexCount;
 
     // Rotation
 	float rotationAngle;
@@ -28,5 +29,7 @@ public:
     void draw() const;
 	void updatePosition(float deltaTime);
     glm::vec3 getPosition() const { return position; }
+    size_t getVertexCount() const { return vertexCount; }
 	glm::mat4 getModel();
+    glm::vec3 getScale() const { return scaleAmount; }
 }; 
