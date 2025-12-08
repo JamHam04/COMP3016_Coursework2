@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{757D4B15-6149-3192-B06B-04CC96BCBF09}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>unit</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;_DEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd";CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd\";CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\lib\Debug\assimp-vc143-mtd.lib;..\contrib\zlib\Debug\zlibstaticd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Uni/CourseWork/3016/Assimp/assimp/binaries;D:/Uni/CourseWork/3016/Assimp/assimp/binaries/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/lib/Debug/unit.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/bin/Debug/unit.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd";CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd\";CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\lib\Release\assimp-vc143-mt.lib;..\contrib\zlib\Release\zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Uni/CourseWork/3016/Assimp/assimp/binaries;D:/Uni/CourseWork/3016/Assimp/assimp/binaries/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/lib/Release/unit.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/bin/Release/unit.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd";CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd\";CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\lib\MinSizeRel\assimp-vc143-mt.lib;..\contrib\zlib\MinSizeRel\zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Uni/CourseWork/3016/Assimp/assimp/binaries;D:/Uni/CourseWork/3016/Assimp/assimp/binaries/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/lib/MinSizeRel/unit.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/bin/MinSizeRel/unit.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd";CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_C4D_IMPORTER;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;ASSIMP_TEST_MODELS_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"D:/Uni/CourseWork/3016/Assimp/assimp/test/models-nonbsd\";CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Uni\CourseWork\3016\Assimp\assimp\binaries\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries;D:\Uni\CourseWork\3016\Assimp\assimp\include;D:\Uni\CourseWork\3016\Assimp\assimp\code;D:\Uni\CourseWork\3016\Assimp\assimp\.;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib;D:\Uni\CourseWork\3016\Assimp\assimp\test\unit;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\include;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest;D:\Uni\CourseWork\3016\Assimp\assimp\contrib\pugixml\src;D:\Uni\CourseWork\3016\Assimp\assimp\test\..\contrib\rapidjson\include;D:\Uni\CourseWork\3016\Assimp\assimp\code\..\include;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\lib\RelWithDebInfo\assimp-vc143-mt.lib;..\contrib\zlib\RelWithDebInfo\zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Uni/CourseWork/3016/Assimp/assimp/binaries;D:/Uni/CourseWork/3016/Assimp/assimp/binaries/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/lib/RelWithDebInfo/unit.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Uni/CourseWork/3016/Assimp/assimp/binaries/bin/RelWithDebInfo/unit.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Uni/CourseWork/3016/Assimp/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\Uni\CourseWork\3016\cmake-4.2.0-windows-x86_64\bin\cmake.exe -SD:/Uni/CourseWork/3016/Assimp/assimp -BD:/Uni/CourseWork/3016/Assimp/assimp/binaries --check-stamp-file D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Uni/CourseWork/3016/Assimp/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\Uni\CourseWork\3016\cmake-4.2.0-windows-x86_64\bin\cmake.exe -SD:/Uni/CourseWork/3016/Assimp/assimp -BD:/Uni/CourseWork/3016/Assimp/assimp/binaries --check-stamp-file D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Uni/CourseWork/3016/Assimp/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\Uni\CourseWork\3016\cmake-4.2.0-windows-x86_64\bin\cmake.exe -SD:/Uni/CourseWork/3016/Assimp/assimp -BD:/Uni/CourseWork/3016/Assimp/assimp/binaries --check-stamp-file D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Uni/CourseWork/3016/Assimp/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\Uni\CourseWork\3016\cmake-4.2.0-windows-x86_64\bin\cmake.exe -SD:/Uni/CourseWork/3016/Assimp/assimp -BD:/Uni/CourseWork/3016/Assimp/assimp/binaries --check-stamp-file D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Uni\CourseWork\3016\Assimp\assimp\binaries\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\CCompilerTest.c" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Main.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\code\Common\Version.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\code\Common\Base64.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSimd.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utIOSystem.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utIOStreamBuffer.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utIssues.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utAnim.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest_aiMatrix3x3.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest_aiMatrix4x4.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest_aiQuaternion.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest_aiVector2D.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AssimpAPITest_aiVector3D.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\MathTest.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\MathTest.h" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\RandomNumberGeneration.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBatchLoader.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utDefaultIOStream.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utFastAtof.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utMetadata.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\SceneDiffer.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\SceneDiffer.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\UTLogStream.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\AbstractImportExportBase.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\TestIOSystem.h" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\TestModelFactory.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utTypes.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utVersion.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utParsingUtils.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utProfiler.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSharedPPData.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utStringUtils.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utMaybe.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utMesh.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utStandardShapes.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\uiScene.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utLineSplitter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utSpatialSort.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utAssertHandler.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utXmlParser.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utBase64.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utHash.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utBaseProcess.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Common\utLogger.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Geometry\utGeometryUtils.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\Assxml\utAssxmlImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utLWSImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utLWOImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSMDImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utglTFImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utglTF2ImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utHMPImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utIFCImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utFBXImporterExporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utImporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utExporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ut3DImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ut3DSImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utACImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utAMFImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utASEImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utD3MFImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utQ3DImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSTLImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utXImporterExporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utX3DImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utDXFImporterExporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utPMXImporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utPLYImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utObjImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utObjTools.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utOpenGEXImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSIBImporter.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBlenderIntermediate.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBlendImportAreaLight.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBlenderImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBlendImportMaterials.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBlenderWork.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utBVHImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utCSMImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utB3DImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utMDCImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utAssbinImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utAssjsonImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utCOBImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utOgreImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utQ3BSPFileImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utOFFImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utNFFImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utXGLImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utMD2Importer.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utMD5Importer.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\utMDLImporter.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\MDL\MDLHL1TestFiles.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_ImportSettings.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Materials.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Nodes.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\RAW\utRAWImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\Terragen\utTerragenImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\ImportExport\Pbrt\utPbrtImportExport.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utMaterialSystem.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utMatrix3x3.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utMatrix4x4.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utVector3.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utImproveCacheLocality.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utFixInfacingNormals.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utGenNormals.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utTriangulate.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utTextureTransform.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utRemoveRedundantMaterials.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utRemoveVCProcess.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utScaleProcess.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utArmaturePopulate.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utJoinVertices.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utRemoveComments.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utRemoveComponent.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utVertexTriangleAdjacency.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSplitLargeMeshes.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utFindDegenerates.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utFindInvalidData.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utLimitBoneWeights.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utPretransformVertices.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utScenePreprocessor.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utTargetAnimation.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSortByPType.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utSceneCombiner.cpp" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\utGenBoundingBoxesProcess.cpp" />
+    <ClInclude Include="D:\Uni\CourseWork\3016\Assimp\assimp\test\unit\Tools\TestTools.h" />
+    <ClCompile Include="D:\Uni\CourseWork\3016\Assimp\assimp\contrib\googletest\googletest\src\gtest-all.cc" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Uni\CourseWork\3016\Assimp\assimp\binaries\ZERO_CHECK.vcxproj">
+      <Project>{F9731903-B500-3256-8CB0-D3BD9034AE75}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Uni\CourseWork\3016\Assimp\assimp\binaries\code\assimp.vcxproj">
+      <Project>{3611A8D6-2C36-37CC-AF59-5D8F008671D2}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{294ED7C1-63CD-3E5C-BC59-8CA72011CD07}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

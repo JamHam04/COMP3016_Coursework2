@@ -1,0 +1,13 @@
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/uninstall.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/INSTALL.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/ALL_BUILD.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/ZERO_CHECK.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/contrib/zlib/CMakeFiles/zlibstatic.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/contrib/zlib/CMakeFiles/INSTALL.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/code/CMakeFiles/assimp.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/code/CMakeFiles/INSTALL.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/unit.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/CMakeFiles/INSTALL.dir
+D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/headercheck/CMakeFiles/INSTALL.dir

@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+D:/Uni/CourseWork/3016/Assimp/assimp/contrib/zlib/CMakeLists.txt
+D:/Uni/CourseWork/3016/Assimp/assimp/contrib/zlib/zconf.h.cmakein
+D:/Uni/CourseWork/3016/Assimp/assimp/contrib/zlib/zlib.pc.cmakein
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/CheckCSourceCompiles.cmake
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/CheckFunctionExists.cmake
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFile.cmake
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/CheckIncludeFileCXX.cmake
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/CheckTypeSize.cmake
+D:/Uni/CourseWork/3016/cmake-4.2.0-windows-x86_64/share/cmake-4.2/Modules/Internal/CheckSourceCompiles.cmake

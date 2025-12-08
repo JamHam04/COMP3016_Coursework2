@@ -1,0 +1,15 @@
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\adler32.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\adler32.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\compress.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\compress.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\crc32.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\crc32.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\deflate.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\deflate.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\gzclose.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\gzclose.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\gzlib.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\gzlib.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\gzread.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\gzread.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\gzwrite.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\gzwrite.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\inflate.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\inflate.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\infback.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\infback.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\inftrees.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\inftrees.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\inffast.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\inffast.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\trees.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\trees.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\uncompr.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\uncompr.obj
+D:\Uni\CourseWork\3016\Assimp\assimp\contrib\zlib\zutil.c;D:\Uni\CourseWork\3016\Assimp\assimp\binaries\contrib\zlib\zlibstatic.dir\Release\zutil.obj

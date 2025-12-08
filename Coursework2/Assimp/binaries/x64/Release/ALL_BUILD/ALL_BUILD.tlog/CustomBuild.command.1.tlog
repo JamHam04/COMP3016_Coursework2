@@ -1,0 +1,10 @@
+^D:\UNI\COURSEWORK\3016\ASSIMP\ASSIMP\CMAKELISTS.TXT
+setlocal
+D:\Uni\CourseWork\3016\cmake-4.2.0-windows-x86_64\bin\cmake.exe -SD:/Uni/CourseWork/3016/Assimp/assimp -BD:/Uni/CourseWork/3016/Assimp/assimp/binaries --check-stamp-file D:/Uni/CourseWork/3016/Assimp/assimp/binaries/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

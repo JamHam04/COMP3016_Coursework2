@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Uni/CourseWork/3016/Assimp/assimp/binaries/cmake_install.cmake",
+		"D:/Uni/CourseWork/3016/Assimp/assimp/binaries/contrib/zlib/cmake_install.cmake",
+		"D:/Uni/CourseWork/3016/Assimp/assimp/binaries/code/cmake_install.cmake",
+		"D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/cmake_install.cmake",
+		"D:/Uni/CourseWork/3016/Assimp/assimp/binaries/test/headercheck/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
