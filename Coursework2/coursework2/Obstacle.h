@@ -16,6 +16,7 @@ private:
 	float moveSpeed;
 	size_t vertexCount;
 
+
     // Rotation
 	float rotationAngle;
 	float rotationSpeed;
@@ -32,4 +33,5 @@ public:
     size_t getVertexCount() const { return vertexCount; }
 	glm::mat4 getModel();
     glm::vec3 getScale() const { return scaleAmount; }
+
 }; 

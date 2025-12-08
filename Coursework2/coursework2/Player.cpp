@@ -41,3 +41,4 @@ glm::mat4 Player::getModel()
 	model = scale(model, scaleAmount);
 	return model;
 }
+

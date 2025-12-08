@@ -15,6 +15,7 @@ private:
 	glm::vec3 position;
 	float moveSpeed;
 	glm::vec3 scaleAmount;
+
 public:
 	Player(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed, glm::vec3 scaleAmount);
 	void draw() const;

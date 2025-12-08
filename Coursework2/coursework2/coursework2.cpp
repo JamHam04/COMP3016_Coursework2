@@ -158,6 +158,52 @@ int main()
 		5, 0, 6,   5, 6,11
 	};
 
+	// Background plane
+	float backgroundVertices[] = {
+		-1.0f,  1.0f, -5.0f,   0.0f, 1.0f,
+		-1.0f, -1.0f, -5.0f,   0.0f, 0.0f,
+		 1.0f, -1.0f, -5.0f,   1.0f, 0.0f,
+		 1.0f,  1.0f, -5.0f,   1.0f, 1.0f
+	};
+
+	GLuint bgVAO, bgVBO;
+
+	glGenVertexArrays(1, &bgVAO);
+	glGenBuffers(1, &bgVBO);
+
+	glBindVertexArray(bgVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, bgVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(backgroundVertices), backgroundVertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glBindVertexArray(0);
+
+	// Background 
+	GLuint bgTexture;
+	glGenTextures(1, &bgTexture);
+	glBindTexture(GL_TEXTURE_2D, bgTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	int width, height, colourChannels;
+	unsigned char* data = stbi_load("textures/spaceBg.jpg", &width, &height, &colourChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		cout << "Failed to load texture" << endl;
+		return -1;
+	}
+
+
 	// Set locations
 	GLint colourLocation = glGetUniformLocation(program, "colourIn");
 	GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
@@ -195,7 +241,23 @@ int main()
 		}
 
 		// Background
-		glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
+		//glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
+		
+		// Background MVP
+		mat4 bgModel = mat4(1.0f); 
+		bgModel = translate(bgModel, vec3(0.0f, 0.0f, -5.0f)); 
+		bgModel = scale(bgModel, vec3(8.0f, 7.0f, 1.0f)); 
+		mvp = projection * bgModel; 
+		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+
+		// Draw background
+		GLint useTextureLoc = glGetUniformLocation(program, "bgTexture");
+		glUniform1i(useTextureLoc, 1);
+		glBindTexture(GL_TEXTURE_2D, bgTexture);
+		glBindVertexArray(bgVAO);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+
 		
 		// Camera
 		view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
