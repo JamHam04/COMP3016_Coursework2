@@ -1,16 +1,27 @@
 #include <iostream>
-#include <GL/glew.h>
+//#include <GL/glew.h>
+
+#include "GLAD/glad.h"
 #include <GLFW/glfw3.h>
 #include "Main.h"
 #include "LoadShaders.h"
 #include "glm/glm/ext/vector_float3.hpp"
 #include "glm/glm/ext/matrix_transform.hpp"
 #include "glm/glm/gtc/type_ptr.hpp"
-#include "Obstacle.h"
-#include "Player.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+
+
+
+// ASSIMP
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+// Model Shaders
+#include <modelShaders/mesh.h>
+#include <modelShaders/shader.h>
+#include <modelShaders/model.h>
+#include <modelShaders/shader_m.h>
 
 
 using namespace std;
@@ -59,8 +70,18 @@ int main()
 	// Bind OpenGl context to the window
 	glfwMakeContextCurrent(window);
 
+	// GLAD LOAD
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
+
+	Shader modelShader("shaders/modelVertex.vert", "shaders/modelFragment.frag");
+	modelShader.use();
+	Model Ship("textures/ship/playerShip.obj");
+
 	// Initialize GLEW
-	glewInit();
+	//glewInit();
 
 	// Load shaders
 	ShaderInfo shaders[] = {
@@ -69,7 +90,7 @@ int main()
 		{ GL_NONE, NULL }
 	};
 
-	// Create shader program
+	//// Create shader program
 	program = LoadShaders(shaders); 
 	glUseProgram(program);
 
@@ -191,7 +212,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	int width, height, colourChannels;
-	unsigned char* data = stbi_load("textures/spaceBg.jpg", &width, &height, &colourChannels, 0);
+	unsigned char* data = stbi_load("textures/spaceBackground.png", &width, &height, &colourChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -211,8 +232,8 @@ int main()
 	size_t obstacleVertexCount = (sizeof(objectVertices) / sizeof(objectVertices[0]) / 3);
 	GLsizei playerIndexCount = sizeof(playerIndices) / sizeof(playerIndices[0]);
 	GLsizei obstacleIndexCount = sizeof(objectIndices) / sizeof(objectIndices[0]);
-	Player player(playerVertices, sizeof(playerVertices), playerIndices, playerIndexCount, glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.5f)); // Change to player class 
-	Obstacle obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
+	Player player("textures/ship/playerShip.obj", glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.025f), 0.0f);
+	Obstacle obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.5f, 0.1f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
 
 	glEnable(GL_DEPTH_TEST);
 	// Main loop
@@ -230,7 +251,7 @@ int main()
 		processUserInput(window, player, deltaTime);
 
 		// cam follew player (TESTING)
-		cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
+		//cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
 
 
 		// Collision detection
@@ -245,8 +266,11 @@ int main()
 		
 		// Background MVP
 		mat4 bgModel = mat4(1.0f); 
-		bgModel = translate(bgModel, vec3(0.0f, 0.0f, -5.0f)); 
-		bgModel = scale(bgModel, vec3(8.0f, 7.0f, 1.0f)); 
+		bgModel = translate(bgModel, vec3(0.0f, 0.0f, 0.0f)); 
+		bgModel = scale(bgModel, vec3(4.0f, 3.0f, 1.0f)); 
+		bgModel = rotate(bgModel, radians(180.0f), vec3(0.0f, 0.0f, 1.0f));
+
+		
 		mvp = projection * bgModel; 
 		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
@@ -272,7 +296,7 @@ int main()
 		////Drawing
 		glUniform1i(useTextureLoc, 0);
 		glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
-		player.draw();
+		player.draw(modelShader);
 
 
 		// OBSTACLE MVP
@@ -286,9 +310,13 @@ int main()
 		// Reset obstacle position
 		if (obstacle.getPosition().z > 3.0f)
 		{
-			obstacle = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.0f, 0.0f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
+			obstacle = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
 		}
 
+		// Draw Ship model
+	
+
+		//Ship.Draw(modelShader);
 
 		// Swap buffers and poll events
 		glfwSwapBuffers(window); 
@@ -308,6 +336,7 @@ bool playerObstacleCollision(Player player, Obstacle obstacle, float verticies[]
 {
 	vec3 playerPosition = player.getPosition();
 	vec3 obstaclePosition = obstacle.getPosition();
+	//size_t vertexCount = obstacle.getVertexCount();
 
 	// Get obstacle model
 	vec3 obstacleScale = obstacle.getScale();
@@ -326,6 +355,7 @@ bool playerObstacleCollision(Player player, Obstacle obstacle, float verticies[]
 	// Use vertices and indices
 	for (size_t i = 1; i < vertexCount; i ++)
 	{
+		float vertexX = verticies[i * 3 + 0] * obstacleScale.x + obstaclePosition.x;
 		float vertexY = verticies[i * 3 + 1] * obstacleScale.y + obstaclePosition.y;
 		float vertexZ = verticies[i * 3 + 2] * obstacleScale.z + obstaclePosition.z;
 
@@ -343,6 +373,7 @@ bool playerObstacleCollision(Player player, Obstacle obstacle, float verticies[]
 	//std::cout << "Obstacle Max: (" << maxX << ", " << maxY << ", " << maxZ << ")" << std::endl;
 
 	// Check player and obstacle collision
+	if (playerPosition.x + playerSize.x > minX && playerPosition.x - playerSize.x < maxX &&
 		playerPosition.y + playerSize.y > minY && playerPosition.y - playerSize.y < maxY &&
 		playerPosition.z + playerSize.z > minZ && playerPosition.z - playerSize.z < maxZ)
 	{
@@ -368,7 +399,7 @@ void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime)
 {
 
 	// Boundary
-
+	vec3 moveDirection = vec3(0.0f);
 
 	// Close window
 	if (glfwGetKey(WindowIn, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -376,15 +407,17 @@ void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime)
 
 	// W
 	if (glfwGetKey(WindowIn, GLFW_KEY_W) == GLFW_PRESS)
-		player.updatePosition(vec3(0.0f, 1.0f, 0.0f), deltaTime);
+		moveDirection.y += (1.0f);
 	// S
 	if (glfwGetKey(WindowIn, GLFW_KEY_S) == GLFW_PRESS)
-		player.updatePosition(vec3(0.0f, -1.0f, 0.0f), deltaTime);
+		moveDirection.y -= (1.0f);
 	// A
 	if (glfwGetKey(WindowIn, GLFW_KEY_A) == GLFW_PRESS)
-		player.updatePosition(vec3(-1.0f, 0.0f, 0.0f), deltaTime);
+		moveDirection.x -= (1.0f);
 	// D
 	if (glfwGetKey(WindowIn, GLFW_KEY_D) == GLFW_PRESS)
-		player.updatePosition(vec3(1.0f, 0.0f, 0.0f), deltaTime);
+		moveDirection.x += (1.0f);
+
+	player.updatePosition(moveDirection, deltaTime);
 }
 

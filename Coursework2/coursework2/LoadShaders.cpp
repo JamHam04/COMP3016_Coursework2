@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "GL/glew.h"
+#include "GLAD/glad.h"
 #include "LoadShaders.h"
 
 #ifdef __cplusplus

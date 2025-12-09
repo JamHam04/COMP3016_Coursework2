@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <GLAD/glad.h>	
 
 #include "glm/glm/ext/vector_float3.hpp"
 #include "glm/glm/ext/matrix_transform.hpp"
