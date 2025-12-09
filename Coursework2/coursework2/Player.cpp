@@ -8,7 +8,6 @@ Player::Player(const std::string& path, glm::vec3 startPos, float moveSpeed, glm
 
 void Player::draw(Shader& shader)
 {
-    //shader.setMat4("model", getModel());
     shipModel.Draw(shader);
 
 }

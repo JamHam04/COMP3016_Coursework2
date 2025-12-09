@@ -4,34 +4,31 @@
 
 #include "glm/ext/vector_float3.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "modelShaders/model.h"
+#include "modelShaders/shader.h"
  
 class Obstacle
 {
 private:
-    GLuint VAO;
-    GLuint VBO;
-    GLuint EBO;
-    GLsizei indexCount;
+    
+ 
 	glm::vec3 position;
-	float moveSpeed;
-	size_t vertexCount;
-
-
-    // Rotation
-	float rotationAngle;
-	float rotationSpeed;
 	glm::vec3 rotationAxis;
 	glm::vec3 scaleAmount;
+
+	float moveSpeed;
+	float rotationAngle;
+	float rotationSpeed;
+
 
 
 public:
     
-    Obstacle(const float* objVertices, size_t vertexCount, const unsigned int* objIndices, size_t indexCount, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount);
-    void draw() const;
+    Obstacle(const std::string& path, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount);
+	void draw(Shader& shader);
 	void updatePosition(float deltaTime);
     glm::vec3 getPosition() const { return position; }
-    size_t getVertexCount() const { return vertexCount; }
-	glm::mat4 getModel();
+	glm::mat4 getModel() const;
     glm::vec3 getScale() const { return scaleAmount; }
-
+	Model obstacleModel;
 }; 
