@@ -3,8 +3,8 @@
 
 #include <glad/glad.h> 
 
-#include <glm/glm/glm.hpp>
-#include "glm/glm/ext/matrix_transform.hpp"
+#include <glm/glm.hpp>
+#include "glm/ext/matrix_transform.hpp"
 #include "stb_image.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -41,6 +41,7 @@ public:
     // draws the model, and thus all its meshes
     void Draw(Shader &shader)
     {
+
         for(unsigned int i = 0; i < meshes.size(); i++)
             meshes[i].Draw(shader);
     }

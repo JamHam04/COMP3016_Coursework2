@@ -1,5 +1,5 @@
 #include "Player.h"
-#include <glm/glm/gtc/type_ptr.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 Player::Player(const std::string& path, glm::vec3 startPos, float moveSpeed, glm::vec3 scale, float rotationAngle)
 	: shipModel(path), position(startPos), moveSpeed(moveSpeed), scaleAmount(scale), rotationAngle(rotationAngle)
@@ -8,7 +8,7 @@ Player::Player(const std::string& path, glm::vec3 startPos, float moveSpeed, glm
 
 void Player::draw(Shader& shader)
 {
-    shader.setMat4("model", getModel());
+    //shader.setMat4("model", getModel());
     shipModel.Draw(shader);
 
 }

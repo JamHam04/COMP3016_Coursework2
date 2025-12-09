@@ -3,8 +3,8 @@
 
 #include <GLAD/glad.h>	
 
-#include "glm/glm/ext/vector_float3.hpp"
-#include "glm/glm/ext/matrix_transform.hpp"
+#include "glm/ext/vector_float3.hpp"
+#include "glm/ext/matrix_transform.hpp"
 #include "modelShaders/model.h"
 #include "modelShaders/shader.h"
 

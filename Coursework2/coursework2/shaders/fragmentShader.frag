@@ -5,13 +5,14 @@ uniform vec4 colourIn;
 in vec2 texCoordFrag;
 uniform sampler2D textureIn;
 
-uniform int bgTexture;
+uniform bool isTextured;
 
 void main()
 {
-    if (bgTexture == 1)
+    //FragColor = texture(textureIn, texCoordFrag);
+    if (isTextured)
         FragColor = texture(textureIn, texCoordFrag);
     else
-        FragColor = colourIn;
+        FragColor = vec4(1.0, 0.25, 0.0, 1.0); 
     
 }

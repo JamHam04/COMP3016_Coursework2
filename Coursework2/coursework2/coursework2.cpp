@@ -5,9 +5,9 @@
 #include <GLFW/glfw3.h>
 #include "Main.h"
 #include "LoadShaders.h"
-#include "glm/glm/ext/vector_float3.hpp"
-#include "glm/glm/ext/matrix_transform.hpp"
-#include "glm/glm/gtc/type_ptr.hpp"
+#include "glm/ext/vector_float3.hpp"
+#include "glm/ext/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 
 
@@ -45,8 +45,6 @@ vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 float deltaTime = 0.0f;	
 float lastFrame = 0.0f;
 
-
-
 int main()
 {
 	// Window Size
@@ -76,23 +74,24 @@ int main()
 		return -1;
 	}
 
-	Shader modelShader("shaders/modelVertex.vert", "shaders/modelFragment.frag");
+	Shader modelShader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
 	modelShader.use();
 	Model Ship("textures/ship/playerShip.obj");
+	Model Asteroid("textures/Asteroids/Rocky_Asteroid_6.obj");
 
 	// Initialize GLEW
 	//glewInit();
 
-	// Load shaders
-	ShaderInfo shaders[] = {
-		{ GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
-		{ GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
-		{ GL_NONE, NULL }
-	};
+	//// Load shaders
+	//ShaderInfo shaders[] = {
+	//	{ GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
+	//	{ GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
+	//	{ GL_NONE, NULL }
+	//};
 
-	//// Create shader program
-	program = LoadShaders(shaders); 
-	glUseProgram(program);
+	////// Create shader program
+	//program = LoadShaders(shaders); 
+	//glUseProgram(program);
 
 	// Set the viewport
 	glViewport(0, 0, windowWidth, windowHeight);
@@ -205,24 +204,24 @@ int main()
 	glBindVertexArray(0);
 
 	// Background 
-	GLuint bgTexture;
-	glGenTextures(1, &bgTexture);
-	glBindTexture(GL_TEXTURE_2D, bgTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//GLuint bgTexture;
+	//glGenTextures(1, &bgTexture);
+	////glBindTexture(GL_TEXTURE_2D, bgTexture);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	int width, height, colourChannels;
-	unsigned char* data = stbi_load("textures/spaceBackground.png", &width, &height, &colourChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		cout << "Failed to load texture" << endl;
-		return -1;
-	}
+	//int width, height, colourChannels;
+	//unsigned char* data = stbi_load("textures/spaceBackground.png", &width, &height, &colourChannels, 0);
+	//if (data)
+	//{
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	//	glGenerateMipmap(GL_TEXTURE_2D);
+	//}
+	//else
+	//{
+	//	cout << "Failed to load texture" << endl;
+	//	return -1;
+	//}
 
 
 	// Set locations
@@ -235,18 +234,21 @@ int main()
 	Player player("textures/ship/playerShip.obj", glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.025f), 0.0f);
 	Obstacle obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(0.5f, 0.1f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
 
+	
 	glEnable(GL_DEPTH_TEST);
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color and depth buffers
-
+		glEnable(GL_CULL_FACE);
+		glActiveTexture(GL_TEXTURE0);
+		
 		// Timing
 		float currentFrame = static_cast<float>(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-
+		
 		// Input
 		processUserInput(window, player, deltaTime);
 
@@ -262,24 +264,24 @@ int main()
 		}
 
 		// Background
-		//glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
+		glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
 		
 		// Background MVP
-		mat4 bgModel = mat4(1.0f); 
+		/*	mat4 bgModel = mat4(1.0f); 
 		bgModel = translate(bgModel, vec3(0.0f, 0.0f, 0.0f)); 
 		bgModel = scale(bgModel, vec3(4.0f, 3.0f, 1.0f)); 
-		bgModel = rotate(bgModel, radians(180.0f), vec3(0.0f, 0.0f, 1.0f));
+		bgModel = rotate(bgModel, radians(180.0f), vec3(0.0f, 0.0f, 1.0f));*/
 
 		
-		mvp = projection * bgModel; 
-		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+		//mvp = projection * bgModel; 
+		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
 		// Draw background
-		GLint useTextureLoc = glGetUniformLocation(program, "bgTexture");
-		glUniform1i(useTextureLoc, 1);
-		glBindTexture(GL_TEXTURE_2D, bgTexture);
-		glBindVertexArray(bgVAO);
-		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		//GLint useTextureLoc = glGetUniformLocation(program, "bgTexture");
+		//glUniform1i(useTextureLoc, 1);
+		//glBindTexture(GL_TEXTURE_2D, bgTexture);
+		//glBindVertexArray(bgVAO);
+		//glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
 
 		
@@ -289,34 +291,41 @@ int main()
 
 
 
-		// PLAYER MVP
-		mvp = projection * view * player.getModel();;
-		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+		
+		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
 		////Drawing
-		glUniform1i(useTextureLoc, 0);
-		glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
+		//glUniform1i(useTextureLoc, 0);
+		//glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
+		
+		// PLAYER MVP
+		mat4 playerMvp = projection * view * player.getModel();;
+		modelShader.setMat4("mvpIn", playerMvp);
+		modelShader.setBool("isTextured", false);
 		player.draw(modelShader);
 
 
 		// OBSTACLE MVP
-		obstacle.updatePosition(deltaTime);
-		mvp = projection * view * obstacle.getModel();
-		glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
-		glUniform4f(colourLocation, 1.0f, 0.75f, 0.5f, 1.0f);
-		obstacle.draw();
+		obstacle.updatePosition(deltaTime);
+		mat4 astroidMvp = projection * view * obstacle.getModel();
+		modelShader.setMat4("mvpIn", astroidMvp);
+		
+		modelShader.setBool("isTextured", true); 
+		Asteroid.Draw(modelShader);
+
+
+		
+		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+
+		//glUniform4f(colourLocation, 1.0f, 0.75f, 0.5f, 1.0f);
+		//obstacle.draw();
 
 		// Reset obstacle position
 		if (obstacle.getPosition().z > 3.0f)
 		{
 			obstacle = Obstacle(objectVertices, sizeof(objectVertices), objectIndices, obstacleIndexCount, glm::vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
 		}
-
-		// Draw Ship model
-	
-
-		//Ship.Draw(modelShader);
 
 		// Swap buffers and poll events
 		glfwSwapBuffers(window); 
