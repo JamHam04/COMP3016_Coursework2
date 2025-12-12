@@ -225,8 +225,8 @@ int main()
 
 
 	// Set locations
-	GLint colourLocation = glGetUniformLocation(program, "colourIn");
-	GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
+	//GLint colourLocation = glGetUniformLocation(program, "colourIn");
+	//GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
 
 	size_t obstacleVertexCount = (sizeof(objectVertices) / sizeof(objectVertices[0]) / 3);
 	GLsizei playerIndexCount = sizeof(playerIndices) / sizeof(playerIndices[0]);
@@ -289,9 +289,36 @@ int main()
 		view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 		projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
+		// Camera tilt based on mouse position
+		double mouseX, mouseY;
+		glfwGetCursorPos(window, &mouseX, &mouseY);
 
+		// Normalize mouse pos to screen size
+		float normalX = (mouseX / windowWidth) * 2.0f - 1.0f;
+		float normalY = (mouseY / windowHeight) * 2.0f - 1.0f;
 
-		
+		// Max camera tilt angle
+		float maxAngle = radians(3.0f);
+
+		// Limit to max movement angle
+		float deltaX = normalX * maxAngle;
+		float deltaY = normalY * maxAngle;
+
+		// Smooth mouse movenet
+		static float smoothedX = 0.0f;
+		static float smoothedY = 0.0f;
+		float smoothFactor = 0.12f;
+
+		smoothedX = mix(smoothedX, deltaX, smoothFactor);
+		smoothedY = mix(smoothedY, deltaY, smoothFactor);
+
+		// Apply tilt
+		mat4 cameraTilt = rotate(mat4(1.0f), smoothedX, vec3(0, 1, 0));
+		cameraTilt = rotate(cameraTilt, smoothedY, vec3(1, 0, 0));
+
+		// Set view 
+		view = cameraTilt * lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
+
 		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
 
 		////Drawing
@@ -326,8 +353,6 @@ int main()
 		glfwPollEvents();
 	}
 
-	
-
 	glfwTerminate();
 	return 0;
 }
@@ -335,64 +360,51 @@ int main()
 
 
 // Collision detection
-bool playerObstacleCollision(Player player, Obstacle obstacle)
+bool playerObstacleCollision(const Player& player, const Obstacle& obstacle)
 {
-	vec3 playerPosition = player.getPosition();
-	vec3 obstaclePosition = obstacle.getPosition();
+	// Player boundin
+	vec3 playerHalfSize = player.getScale() * 0.1f; 
+	vec3 playerPos = player.getPosition();
 
-	// Get obstacle model
-	vec3 obstacleScale = obstacle.getScale();
+	// Get obstacle model 
+	mat4 model = obstacle.getModel();
 
-	// Player and obstacle sizes
-	vec3 playerSize = player.getScale() * 0.1f;
-
-	// Get obstacle vertices from mesh
-	std::vector<glm::vec3> obstacleVertices;
-	for (const auto& mesh : obstacle.obstacleModel.meshes) {
-		for (const auto& vertex : mesh.vertices) {
-			obstacleVertices.push_back(vertex.Position);
-		}
-	}
-
-	glm::vec3 obstacleScale = obstacle.getScale();
-	glm::vec3 obstaclePosition = obstacle.getPosition();
-
+	// Initialize min/max 
 	float minX = std::numeric_limits<float>::max();
 	float minY = std::numeric_limits<float>::max();
 	float minZ = std::numeric_limits<float>::max();
-	float maxX = std::numeric_limits<float>::lowest();
-	float maxY = std::numeric_limits<float>::lowest();
-	float maxZ = std::numeric_limits<float>::lowest();
+	float maxX = -std::numeric_limits<float>::max();
+	float maxY = -std::numeric_limits<float>::max();
+	float maxZ = -std::numeric_limits<float>::max();
 
-	
-	for (const auto& v : obstacleVertices) {
-		float x = v.x * obstacleScale.x + obstaclePosition.x;
-		float y = v.y * obstacleScale.y + obstaclePosition.y;
-		float z = v.z * obstacleScale.z + obstaclePosition.z;
-
-		minX = std::min(minX, x);
-		minY = std::min(minY, y);
-		minZ = std::min(minZ, z);
-		maxX = std::max(maxX, x);
-		maxY = std::max(maxY, y);
-		maxZ = std::max(maxZ, z);
-	}
-	//std::cout << "Obstacle Min: (" << minX << ", " << minY << ", " << minZ << ")" << std::endl;
-	//std::cout << "Obstacle Max: (" << maxX << ", " << maxY << ", " << maxZ << ")" << std::endl;
-	
-	// Check player and obstacle collision
-	if (playerPosition.x + playerSize.x > minX && playerPosition.x - playerSize.x < maxX &&
-		playerPosition.y + playerSize.y > minY && playerPosition.y - playerSize.y < maxY &&
-		playerPosition.z + playerSize.z > minZ && playerPosition.z - playerSize.z < maxZ)
+	// Iterate through all vertices of the obstacle model
+	for (const auto& mesh : obstacle.obstacleModel.meshes)
 	{
-		return true;
+		for (const auto& vertex : mesh.vertices)
+		{
+			vec4 w = model * vec4(vertex.Position, 1.0f);
+
+			// Add to min/max
+			minX = std::min(minX, w.x);
+			minY = std::min(minY, w.y);
+			minZ = std::min(minZ, w.z);
+			maxX = std::max(maxX, w.x);
+			maxY = std::max(maxY, w.y);
+			maxZ = std::max(maxZ, w.z);
+		}
 	}
-	else {
-		return false;
-	}
+
+	// Collision check
+	bool playerCollide =
+		(playerPos.x + playerHalfSize.x > minX) &&
+		(playerPos.x - playerHalfSize.x < maxX) &&
+		(playerPos.y + playerHalfSize.y > minY) &&
+		(playerPos.y - playerHalfSize.y < maxY) &&
+		(playerPos.z + playerHalfSize.z > minZ) &&
+		(playerPos.z - playerHalfSize.z < maxZ);
+
+	return playerCollide;
 }
-
-
 
 // Callback function called on window resize
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -411,6 +423,8 @@ void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime)
 	if (glfwGetKey(WindowIn, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(WindowIn, true);
 
+	// Player Movement
+	
 	// W
 	if (glfwGetKey(WindowIn, GLFW_KEY_W) == GLFW_PRESS)
 		moveDirection.y += (1.0f);
