@@ -366,44 +366,19 @@ bool playerObstacleCollision(const Player& player, const Obstacle& obstacle)
 	vec3 playerHalfSize = player.getScale() * 0.1f; 
 	vec3 playerPos = player.getPosition();
 
-	// Get obstacle model 
-	mat4 model = obstacle.getModel();
+	// Get obstacle collision box in world space
+	vec3 minBox, maxBox;
+	obstacle.getCollisionBox(minBox, maxBox); 
 
-	// Initialize min/max 
-	float minX = std::numeric_limits<float>::max();
-	float minY = std::numeric_limits<float>::max();
-	float minZ = std::numeric_limits<float>::max();
-	float maxX = -std::numeric_limits<float>::max();
-	float maxY = -std::numeric_limits<float>::max();
-	float maxZ = -std::numeric_limits<float>::max();
+	bool playerCollided =
+		(playerPos.x + playerHalfSize.x > minBox.x) &&
+		(playerPos.x - playerHalfSize.x < maxBox.x) &&
+		(playerPos.y + playerHalfSize.y > minBox.y) &&
+		(playerPos.y - playerHalfSize.y < maxBox.y) &&
+		(playerPos.z + playerHalfSize.z > minBox.z) &&
+		(playerPos.z - playerHalfSize.z < maxBox.z);
 
-	// Iterate through all vertices of the obstacle model
-	for (const auto& mesh : obstacle.obstacleModel.meshes)
-	{
-		for (const auto& vertex : mesh.vertices)
-		{
-			vec4 w = model * vec4(vertex.Position, 1.0f);
-
-			// Add to min/max
-			minX = std::min(minX, w.x);
-			minY = std::min(minY, w.y);
-			minZ = std::min(minZ, w.z);
-			maxX = std::max(maxX, w.x);
-			maxY = std::max(maxY, w.y);
-			maxZ = std::max(maxZ, w.z);
-		}
-	}
-
-	// Collision check
-	bool playerCollide =
-		(playerPos.x + playerHalfSize.x > minX) &&
-		(playerPos.x - playerHalfSize.x < maxX) &&
-		(playerPos.y + playerHalfSize.y > minY) &&
-		(playerPos.y - playerHalfSize.y < maxY) &&
-		(playerPos.z + playerHalfSize.z > minZ) &&
-		(playerPos.z - playerHalfSize.z < maxZ);
-
-	return playerCollide;
+	return playerCollided;
 }
 
 // Callback function called on window resize

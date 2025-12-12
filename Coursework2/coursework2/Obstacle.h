@@ -20,6 +20,9 @@ private:
 	float rotationAngle;
 	float rotationSpeed;
 
+	glm::vec3 modelMin;
+	glm::vec3 modelMax;
+
 
 
 public:
@@ -31,4 +34,6 @@ public:
 	glm::mat4 getModel() const;
     glm::vec3 getScale() const { return scaleAmount; }
 	Model obstacleModel;
+	void createCollisionBox();
+	void getCollisionBox(glm::vec3& minOut, glm::vec3& maxOut) const;
 }; 
