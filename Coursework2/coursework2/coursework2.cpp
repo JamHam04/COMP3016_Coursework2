@@ -326,21 +326,33 @@ int main()
 		//glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
 		
 		// PLAYER MVP
-		mat4 playerMvp = projection * view * player.getModel();;
-		modelShader.setMat4("mvpIn", playerMvp);
+		modelShader.use();
+
+		modelShader.setMat4("view", view);
+		modelShader.setMat4("projection", projection);
+		modelShader.setMat4("model", player.getModel());
+
+		modelShader.setVec3("lightPos", glm::vec3(0.0f, 2.0f, 2.0f));
+		modelShader.setVec3("lightColor", glm::vec3(1.0f));
+		modelShader.setVec3("viewPos", cameraPosition);
+
 		modelShader.setBool("isTextured", false);
 		player.draw(modelShader);
 
-
 		// OBSTACLE MVP
 		obstacle.updatePosition(deltaTime);
-		mat4 astroidMvp = projection * view * obstacle.getModel();
-		modelShader.setMat4("mvpIn", astroidMvp);
-		
-		modelShader.setBool("isTextured", true); 
-		obstacle.draw(modelShader);
+		modelShader.use();
 
-		
+		modelShader.setMat4("view", view);
+		modelShader.setMat4("projection", projection);
+
+		modelShader.setVec3("lightPos", glm::vec3(0.0f, 2.0f, 2.0f));
+		modelShader.setVec3("lightColor", glm::vec3(1.0f));
+		modelShader.setVec3("viewPos", cameraPosition);
+
+		modelShader.setBool("isTextured", true);
+		modelShader.setMat4("model", obstacle.getModel());
+		obstacle.draw(modelShader);
 
 		// Reset obstacle position
 		if (obstacle.getPosition().z > 3.0f)
@@ -362,13 +374,17 @@ int main()
 // Collision detection
 bool playerObstacleCollision(const Player& player, const Obstacle& obstacle)
 {
-	// Player boundin
-	vec3 playerHalfSize = player.getScale() * 0.1f; 
+	vec3 playerHalfSize = player.getScale() * 0.1f;
 	vec3 playerPos = player.getPosition();
 
-	// Get obstacle collision box in world space
+	// World-space bounding box
 	vec3 minBox, maxBox;
-	obstacle.getCollisionBox(minBox, maxBox); 
+	obstacle.getCollisionBox(minBox, maxBox);
+
+	// Shrink collision box
+	float scaleBox = 0.1f; 
+	minBox += vec3(scaleBox);
+	maxBox -= vec3(scaleBox);
 
 	bool playerCollided =
 		(playerPos.x + playerHalfSize.x > minBox.x) &&
@@ -380,6 +396,7 @@ bool playerObstacleCollision(const Player& player, const Obstacle& obstacle)
 
 	return playerCollided;
 }
+
 
 // Callback function called on window resize
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

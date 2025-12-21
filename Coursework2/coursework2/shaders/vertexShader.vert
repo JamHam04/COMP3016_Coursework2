@@ -1,11 +1,25 @@
 #version 460
 layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 locNormal;
 layout (location = 2) in vec2 texPosition;
-uniform mat4 mvpIn;
-out vec2 texCoordFrag;
 
-void main() {
+// Outs to fragment shader
+out vec3 FragPos;
+out vec3 Normal;
+out vec2 TexCoords;
 
-    gl_Position = mvpIn * vec4(position.x, position.y, position.z, 1.0);
-    texCoordFrag = texPosition;
+// Uniformsq
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    FragPos = vec3(model * vec4(position, 1.0)); // Get in world space
+
+    Normal = mat3(transpose(inverse(model))) * locNormal; 
+
+    TexCoords = texPosition; // Assign texture 
+
+    gl_Position = projection * view * vec4(FragPos, 1.0);
 }
