@@ -92,6 +92,12 @@ int main()
 	int terrainSeed = rand() % 100;
 	AsteroidNoise.SetSeed(terrainSeed);
 
+	// PCG Starfield Noise
+	FastNoiseLite starNoise;
+	starNoise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+	starNoise.SetFrequency(0.1f);
+	starNoise.SetSeed(terrainSeed);
+
 
 
 	// Vertex and index data //
@@ -229,7 +235,22 @@ int main()
 	int asteroidsSpawned = 0;
 	glEnable(GL_DEPTH_TEST);
 
+	const int starCount = 250;
+	vector<vec3> starPositions(starCount);
 
+	// Star Spawning positions
+	for (int i = 0; i < starCount; i++) {
+		float noiseX = starNoise.GetNoise(i + 0.0f, i + 100.0f);
+		float noiseY = starNoise.GetNoise(i + 100.0f, i + 0.0f);
+		float spawnRangeX = 60.0f;
+		float spawnRangeY = 40.0f;
+		noiseX *= spawnRangeX;
+		noiseY *= spawnRangeY;
+		float zPos = -50.0f - static_cast<float>(rand() % 100); // Random 
+		starPositions[i] = vec3(noiseX, noiseY, zPos);
+	}
+
+	
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -258,13 +279,12 @@ int main()
 		}
 
 		// Background
-		glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
+		glClearColor(0.0f, 0.0f, 0.1f, 1.0f); 
 		
 		// Camera
 		view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 		projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
-	
 
 		// Camera tilt based on mouse position
 		double mouseX, mouseY;
@@ -305,10 +325,41 @@ int main()
 		modelShader.setMat4("projection", projection);
 		modelShader.setBool("isTextured", false);
 		modelShader.setBool("lightEnabled", false);
-
+		modelShader.setVec4("modelColor", vec4(0.4, 0.8, 1.0, 0.6));
 		glBindVertexArray(borderVAO);
 		glDrawArrays(GL_LINE_LOOP, 0, 4);
 		glBindVertexArray(0);
+
+		// Star spawning
+		float starSpeed = 5.0f; 
+		for (int i = 0; i < starCount; i++) {
+			starPositions[i].z += starSpeed * deltaTime; // mpve stars towards player
+
+			// Reset star after passing camera
+			if (starPositions[i].z > cameraPosition.z) {
+				float noiseX = starNoise.GetNoise(i + 0.0f, i + 100.0f) * 2.0f;
+				float noiseY = starNoise.GetNoise(i + 100.0f, i + 0.0f) * 1.5f;
+				float spawnRangeX = 60.0f;
+				float spawnRangeY = 40.0f;
+				noiseX *= spawnRangeX;
+				noiseY *= spawnRangeY;
+				float zPos = -50.0f - static_cast<float>(rand() % 100); 
+				starPositions[i] = vec3(noiseX, noiseY, zPos);
+			}
+		}
+		// Draw as points
+		modelShader.setVec4("modelColor", vec4(1.0));
+		glPointSize(2.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glBegin(GL_POINTS);
+
+		for (const auto& star : starPositions) {
+			glVertex3f(star.x, star.y, star.z);
+		}
+		glEnd();
+
+
+
 
 		// PLAYER MVP
 
@@ -324,6 +375,7 @@ int main()
 
 		modelShader.setBool("isTextured", false);
 		modelShader.setBool("lightEnabled", true);
+		modelShader.setVec4("modelColor", vec4(1.0, 0.25, 0.0, 1.0)); // Orange color
 
 
 		player.draw(modelShader);
@@ -336,14 +388,15 @@ int main()
 		modelShader.setMat4("projection", projection);
 
 		modelShader.setVec3("lightPos", vec3(2.0f * deltaTime)); // Animate light position
-		modelShader.setVec3("lightColor", vec3(1.0f));
-		modelShader.setVec3("viewPos", cameraPosition);
+
 
 		modelShader.setBool("isTextured", true);
 		modelShader.setMat4("model", obstacle.getModel());
 
 
 		obstacle.draw(modelShader);
+
+
 
 		// Reset obstacle position
 		
@@ -354,17 +407,15 @@ int main()
 			float noiseX = AsteroidNoise.GetNoise(asteroidsSpawned + 0.0f, asteroidsSpawned + 100.0f);
 			float noiseY = AsteroidNoise.GetNoise(asteroidsSpawned + 100.0f, asteroidsSpawned + 0.0f);
 			
-			float spawnRangeX = 1.5f; 
-			float spawnRangeY = 0.8f;
+			float spawnRangeX = 2.0f; 
+			float spawnRangeY = 1.5f;
 
 			// Scale noise to spawn range
 			noiseX *= spawnRangeX; 
 			noiseY *= spawnRangeY;
 
 			obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(noiseX, noiseY, -5.0f), 1.0f, 0.0f, 1.0f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
-			cout << asteroidsSpawned << " "
-				<< noiseX << " "
-				<< noiseY << endl;
+			cout << asteroidsSpawned << ", " << noiseX << ", " << noiseY << endl; 
 
 			asteroidsSpawned++;
 		}

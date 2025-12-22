@@ -19,6 +19,7 @@ uniform vec3 viewPos; // Camera position
 
 uniform bool isTextured;
 uniform bool lightEnabled;
+uniform vec4 modelColor;
 
 void main()
 {
@@ -42,7 +43,7 @@ void main()
     vec3 lighting = ambient + diffuse + specular; // Combine lighting
 
     // Use texture, default to orange if no texture
-    vec4 baseColor = isTextured ? texture(texture_diffuse1, TexCoords) : vec4(1.0, 0.25, 0.0, 1.0); // orange
+    vec4 baseColor = isTextured ? texture(texture_diffuse1, TexCoords) : modelColor; // orange
 
     // Use lighting if enabled
     FragColor = lightEnabled ? vec4(lighting, 1.0) * baseColor : baseColor;

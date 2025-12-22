@@ -13,6 +13,7 @@ void Player::draw(Shader& shader)
 }
 
 float currentAngle = 0.0f;       
+float currentPitch = 0.0f;
 
 
 void Player::updatePosition(glm::vec3 moveDirection, float deltaTime)
@@ -20,8 +21,9 @@ void Player::updatePosition(glm::vec3 moveDirection, float deltaTime)
     position += moveDirection * moveSpeed * deltaTime;
 
 	rotationAngle = moveDirection.x * 20.0f; // 20- max angle
+	
 
-
+    float pitchAngle = moveDirection.y * 15.0f;
 
 	if (position.x < -2.0f) position.x = -2.0f;
 	if (position.x > 2.0f) position.x = 2.0f;
@@ -32,10 +34,12 @@ void Player::updatePosition(glm::vec3 moveDirection, float deltaTime)
     if (moveDirection != glm::vec3(0.0f))
     {
         currentAngle += (rotationAngle - currentAngle) * deltaTime;
+        currentPitch += (-pitchAngle - currentPitch) * deltaTime;
 	}
     else
     {
 		currentAngle += (-rotationAngle - currentAngle) * deltaTime;
+        currentPitch += (pitchAngle - currentPitch) * deltaTime;
     }
     
 }
@@ -47,5 +51,6 @@ glm::mat4 Player::getModel() const
     model = glm::scale(model, scaleAmount);
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Face forward
 	model = glm::rotate(model, glm::radians(currentAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(currentPitch), glm::vec3(1.0f, 0.0f, 0.0f)); // Pitch
     return model;
 }
