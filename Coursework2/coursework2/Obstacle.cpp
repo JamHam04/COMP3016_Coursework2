@@ -16,7 +16,7 @@ void Obstacle::draw(Shader& shader)
  void Obstacle::updatePosition(float deltaTime)
  {
      position.z += moveSpeed * deltaTime;
-	 //rotationAngle += rotationSpeed * deltaTime; 
+	 rotationAngle += rotationSpeed * deltaTime; 
  }
 
  // Set model

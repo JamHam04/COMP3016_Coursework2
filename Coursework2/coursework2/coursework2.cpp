@@ -326,17 +326,20 @@ int main()
 		//glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
 		
 		// PLAYER MVP
+
 		modelShader.use();
 
 		modelShader.setMat4("view", view);
 		modelShader.setMat4("projection", projection);
 		modelShader.setMat4("model", player.getModel());
 
-		modelShader.setVec3("lightPos", glm::vec3(0.0f, 2.0f, 2.0f));
-		modelShader.setVec3("lightColor", glm::vec3(1.0f));
+		modelShader.setVec3("lightPos", vec3(0.0f, 2.0f, 2.0f));
+		modelShader.setVec3("lightColor", vec3(1.0f));
 		modelShader.setVec3("viewPos", cameraPosition);
 
 		modelShader.setBool("isTextured", false);
+
+
 		player.draw(modelShader);
 
 		// OBSTACLE MVP
@@ -346,18 +349,20 @@ int main()
 		modelShader.setMat4("view", view);
 		modelShader.setMat4("projection", projection);
 
-		modelShader.setVec3("lightPos", glm::vec3(0.0f, 2.0f, 2.0f));
-		modelShader.setVec3("lightColor", glm::vec3(1.0f));
+		modelShader.setVec3("lightPos", vec3(2.0f * deltaTime)); // Animate light position
+		modelShader.setVec3("lightColor", vec3(1.0f));
 		modelShader.setVec3("viewPos", cameraPosition);
 
 		modelShader.setBool("isTextured", true);
 		modelShader.setMat4("model", obstacle.getModel());
+
+
 		obstacle.draw(modelShader);
 
 		// Reset obstacle position
 		if (obstacle.getPosition().z > 3.0f)
 		{
-			obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", glm::vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f)); // Reset position
+			obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 0.5f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
 		}
 
 		// Swap buffers and poll events
