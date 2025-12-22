@@ -8,7 +8,7 @@
 #include "glm/ext/vector_float3.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
-
+#include "FastNoiseLite.h" 
 
 
 
@@ -79,25 +79,19 @@ int main()
 	Model Ship("textures/ship/playerShip.obj");
 	Model Asteroid("textures/Asteroids/Rocky_Asteroid_6.obj");
 
-	// Initialize GLEW
-	//glewInit();
-
-	//// Load shaders
-	//ShaderInfo shaders[] = {
-	//	{ GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
-	//	{ GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
-	//	{ GL_NONE, NULL }
-	//};
-
-	////// Create shader program
-	//program = LoadShaders(shaders); 
-	//glUseProgram(program);
-
 	// Set the viewport
 	glViewport(0, 0, windowWidth, windowHeight);
 
 	// Resize callback
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	// PCG Asteroid Noise Spawning
+	FastNoiseLite AsteroidNoise;
+	AsteroidNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+	AsteroidNoise.SetFrequency(0.05f);
+	int terrainSeed = rand() % 100;
+	AsteroidNoise.SetSeed(terrainSeed);
+
 
 
 	// Vertex and index data //
@@ -186,6 +180,29 @@ int main()
 		 1.0f,  1.0f, -5.0f,   1.0f, 1.0f
 	};
 
+
+	// Borderr vertices
+	float borderVertices[] = {
+		-2.0f, -1.5f, -1.0f,
+		2.0f, -1.5f, -1.0f,
+		2.0f, 1.5f, -1.0f,
+		-2.0f, 1.5f, -1.0f
+	};
+
+
+	GLuint borderVAO, borderVBO;
+	glGenVertexArrays(1, &borderVAO);
+	glGenBuffers(1, &borderVBO);
+
+	glBindVertexArray(borderVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, borderVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(borderVertices), borderVertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+
+
 	GLuint bgVAO, bgVBO;
 
 	glGenVertexArrays(1, &bgVAO);
@@ -203,39 +220,16 @@ int main()
 
 	glBindVertexArray(0);
 
-	// Background 
-	//GLuint bgTexture;
-	//glGenTextures(1, &bgTexture);
-	////glBindTexture(GL_TEXTURE_2D, bgTexture);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	//int width, height, colourChannels;
-	//unsigned char* data = stbi_load("textures/spaceBackground.png", &width, &height, &colourChannels, 0);
-	//if (data)
-	//{
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	//	glGenerateMipmap(GL_TEXTURE_2D);
-	//}
-	//else
-	//{
-	//	cout << "Failed to load texture" << endl;
-	//	return -1;
-	//}
-
-
-	// Set locations
-	//GLint colourLocation = glGetUniformLocation(program, "colourIn");
-	//GLint mvpLocation = glGetUniformLocation(program, "mvpIn");
-
 	size_t obstacleVertexCount = (sizeof(objectVertices) / sizeof(objectVertices[0]) / 3);
 	GLsizei playerIndexCount = sizeof(playerIndices) / sizeof(playerIndices[0]);
 	GLsizei obstacleIndexCount = sizeof(objectIndices) / sizeof(objectIndices[0]);
 	Player player("textures/ship/playerShip.obj", glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.025f), 0.0f);
 	Obstacle obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", glm::vec3(0.5f, 0.1f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
 
-	
+	int asteroidsSpawned = 0;
 	glEnable(GL_DEPTH_TEST);
+
+
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -266,28 +260,11 @@ int main()
 		// Background
 		glClearColor(0.0f, 0.1f, 0.5f, 1.0f); 
 		
-		// Background MVP
-		/*	mat4 bgModel = mat4(1.0f); 
-		bgModel = translate(bgModel, vec3(0.0f, 0.0f, 0.0f)); 
-		bgModel = scale(bgModel, vec3(4.0f, 3.0f, 1.0f)); 
-		bgModel = rotate(bgModel, radians(180.0f), vec3(0.0f, 0.0f, 1.0f));*/
-
-		
-		//mvp = projection * bgModel; 
-		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
-
-		// Draw background
-		//GLint useTextureLoc = glGetUniformLocation(program, "bgTexture");
-		//glUniform1i(useTextureLoc, 1);
-		//glBindTexture(GL_TEXTURE_2D, bgTexture);
-		//glBindVertexArray(bgVAO);
-		//glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-
-		
 		// Camera
 		view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 		projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
+
+	
 
 		// Camera tilt based on mouse position
 		double mouseX, mouseY;
@@ -319,12 +296,20 @@ int main()
 		// Set view 
 		view = cameraTilt * lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 
-		//glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, value_ptr(mvp));
+		// Game Boundary MVP
+		modelShader.use();
+		mat4 borderModel = mat4(1.0f);
 
-		////Drawing
-		//glUniform1i(useTextureLoc, 0);
-		//glUniform4f(colourLocation, 1.0f, 0.25f, 0.0f, 1.0f);
-		
+		modelShader.setMat4("model", borderModel);
+		modelShader.setMat4("view", view);
+		modelShader.setMat4("projection", projection);
+		modelShader.setBool("isTextured", false);
+		modelShader.setBool("lightEnabled", false);
+
+		glBindVertexArray(borderVAO);
+		glDrawArrays(GL_LINE_LOOP, 0, 4);
+		glBindVertexArray(0);
+
 		// PLAYER MVP
 
 		modelShader.use();
@@ -338,6 +323,7 @@ int main()
 		modelShader.setVec3("viewPos", cameraPosition);
 
 		modelShader.setBool("isTextured", false);
+		modelShader.setBool("lightEnabled", true);
 
 
 		player.draw(modelShader);
@@ -360,9 +346,27 @@ int main()
 		obstacle.draw(modelShader);
 
 		// Reset obstacle position
+		
 		if (obstacle.getPosition().z > 3.0f)
 		{
-			obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 0.5f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
+			//obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 0.5f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
+			// Use noise to determine new x,y position
+			float noiseX = AsteroidNoise.GetNoise(asteroidsSpawned + 0.0f, asteroidsSpawned + 100.0f);
+			float noiseY = AsteroidNoise.GetNoise(asteroidsSpawned + 100.0f, asteroidsSpawned + 0.0f);
+			
+			float spawnRangeX = 1.5f; 
+			float spawnRangeY = 0.8f;
+
+			// Scale noise to spawn range
+			noiseX *= spawnRangeX; 
+			noiseY *= spawnRangeY;
+
+			obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(noiseX, noiseY, -5.0f), 1.0f, 0.0f, 1.0f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
+			cout << asteroidsSpawned << " "
+				<< noiseX << " "
+				<< noiseY << endl;
+
+			asteroidsSpawned++;
 		}
 
 		// Swap buffers and poll events

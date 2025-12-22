@@ -20,6 +20,13 @@ void Player::updatePosition(glm::vec3 moveDirection, float deltaTime)
     position += moveDirection * moveSpeed * deltaTime;
 
 	rotationAngle = moveDirection.x * 20.0f; // 20- max angle
+
+
+
+	if (position.x < -2.0f) position.x = -2.0f;
+	if (position.x > 2.0f) position.x = 2.0f;
+	if (position.y < -1.5f) position.y = -1.5f;
+	if (position.y > 1.5f) position.y = 1.5f;
     
 	
     if (moveDirection != glm::vec3(0.0f))
