@@ -44,26 +44,31 @@ vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 // Game timing
 float deltaTime = 0.0f;	
 float lastFrame = 0.0f;
+float timeElapsed = 0.0f;
 
+const int maxAsteroids = 25;
 vector<Obstacle> asteroids; 
-const int maxAsteroids = 10;
-	float spawnRangeX = 5.0f; 
-	float spawnRangeY = 3.5f;
 
 
-void spawnAsteroid(FastNoiseLite& AsteroidNoise, int asteroidsSpawned, float spawnRangeX, float spawnRangeY, vector<Obstacle>& asteroids) {
-	float noiseX = AsteroidNoise.GetNoise(asteroidsSpawned + 0.0f, asteroidsSpawned + 100.0f);
-	float noiseY = AsteroidNoise.GetNoise(asteroidsSpawned + 100.0f, asteroidsSpawned + 0.0f);
-	noiseX *= spawnRangeX;
-	noiseY *= spawnRangeY;
-	float zPos = -5.0f - static_cast<float>(rand() % 50);
+
+float spawnRangeX = 2.0f; 
+float spawnRangeY = 1.5f;
+float asteroidSpeed = 2.0f;
+float asteroidSpawnInterval = 2.0f;
+
+
+void spawnAsteroid(Model* model, float spawnRangeX, float spawnRangeY, vector<Obstacle>& asteroids) {
+	float xPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeX;
+	float yPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeY;
+
+
 	// Random movement and rotation
-	float moveSpeed = 1.0f + static_cast<float>(rand() % 5) * 0.5f;
+
 	float rotationSpeed = 0.5f + static_cast<float>(rand() % 5) * 0.2f;
 	vec3 rotationAxis = vec3(static_cast<float>(rand() % 100) / 100.0f, static_cast<float>(rand() % 100) / 100.0f, static_cast<float>(rand() % 100) / 100.0f);
 	if (rand() % 2 == 0) rotationAxis = -rotationAxis; 
 
-	asteroids.push_back(Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(noiseX, noiseY, zPos), moveSpeed, 0.0f, rotationSpeed, rotationAxis, vec3(1.0f)));
+	asteroids.push_back(Obstacle(model, vec3(xPos, yPos, -20.0f), 0.0f, rotationSpeed, rotationAxis, vec3(1.0f)));
 }
 
 
@@ -96,10 +101,13 @@ int main()
 		return -1;
 	}
 
+
+
 	Shader modelShader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
 	modelShader.use();
 	Model Ship("textures/ship/playerShip.obj");
-	Model Asteroid("textures/Asteroids/Rocky_Asteroid_6.obj");
+	Model asteroidModel("textures/Asteroids/Rocky_Asteroid_6.obj");
+
 
 	// Set the viewport
 	glViewport(0, 0, windowWidth, windowHeight);
@@ -252,7 +260,7 @@ int main()
 	GLsizei playerIndexCount = sizeof(playerIndices) / sizeof(playerIndices[0]);
 	GLsizei obstacleIndexCount = sizeof(objectIndices) / sizeof(objectIndices[0]);
 	Player player("textures/ship/playerShip.obj", glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.025f), 0.0f);
-	Obstacle obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", glm::vec3(0.5f, 0.1f, -5.0f), 1.0f, 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
+	//Obstacle obstacle(&asteroidModel, glm::vec3(0.5f, 0.1f, -5.0f), 0.0f, 1.0f, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f));
 
 	float asteroidsSpawned = 0.5f;
 	glEnable(GL_DEPTH_TEST);
@@ -272,7 +280,15 @@ int main()
 		starPositions[i] = vec3(noiseX, noiseY, zPos);
 	}
 
-	
+	// Asteroid Initial Spawns
+	for (int i = 0; i < maxAsteroids; i++) {
+		spawnAsteroid(&asteroidModel, spawnRangeX, spawnRangeY, asteroids);
+
+		// Spawn every 2
+		float zPos = -2.0f * i; // for example: -0, -2, -4, -6...
+		asteroids[i].setPosition(vec3(asteroids[i].getPosition().x, asteroids[i].getPosition().y, zPos));
+	}
+
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -285,6 +301,13 @@ int main()
 		float currentFrame = static_cast<float>(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		timeElapsed += deltaTime;
+
+		// Asterpod speed increase over time
+		asteroidSpeed = 2.0f + (timeElapsed / 20.0f);
+
+
+
 		
 		// Input
 		processUserInput(window, player, deltaTime);
@@ -293,12 +316,6 @@ int main()
 		cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
 
 
-		// Collision detection
-		if (playerObstacleCollision(player, obstacle))
-		{
-			cout << "Player collided" << endl;
-			break; 
-		}
 
 		// Background
 		glClearColor(0.0f, 0.0f, 0.1f, 1.0f); 
@@ -381,10 +398,7 @@ int main()
 		glEnd();
 
 
-
-
 		// PLAYER MVP
-
 		modelShader.use();
 
 		modelShader.setMat4("view", view);
@@ -403,55 +417,12 @@ int main()
 		player.draw(modelShader);
 
 		// OBSTACLE MVP
-		obstacle.updatePosition(deltaTime);
-		modelShader.use();
-
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
-
-		modelShader.setVec3("lightPos", vec3(2.0f * deltaTime)); // Animate light position
-
-
-		modelShader.setBool("isTextured", true);
-		modelShader.setMat4("model", obstacle.getModel());
-
-
-		obstacle.draw(modelShader);
 
 
 
-		// Reset obstacle position
-		
-		//if (obstacle.getPosition().z > 3.0f)
-		//{
-		//	//obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(-0.6, 0.2f, -5.0f), 1.0f, 0.0f, 0.5f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
-		//	// Use noise to determine new x,y position
-		//	float noiseX = AsteroidNoise.GetNoise(asteroidsSpawned + 0.0f, asteroidsSpawned + 100.0f);
-		//	float noiseY = AsteroidNoise.GetNoise(asteroidsSpawned + 100.0f, asteroidsSpawned + 0.0f);
-		//	
-		//	float spawnRangeX = 5.0f; 
-		//	float spawnRangeY = 3.5f;
-
-		//	// Scale noise to spawn range
-		//	noiseX *= spawnRangeX; 
-		//	noiseY *= spawnRangeY;
-
-		//	obstacle = Obstacle("textures/Asteroids/Rocky_Asteroid_6.obj", vec3(noiseX, noiseY, -5.0f), 1.0f, 0.0f, 1.0f, vec3(0.0f, 0.0f, 1.0f), vec3(1.0f)); // Reset position
-		//	cout << asteroidsSpawned << ", " << noiseX << ", " << noiseY << endl; 
-
-		//	asteroidsSpawned++;
-		//}
-
-
-
-		// Spawn asteroids randomly
-		if (asteroids.size() < maxAsteroids) {
-			spawnAsteroid(AsteroidNoise, asteroidsSpawned, spawnRangeX, spawnRangeY, asteroids);
-			asteroidsSpawned++;
-		}
 		// Draw asteroids
 		for (size_t i = 0; i < asteroids.size(); i++) {
-			asteroids[i].updatePosition(deltaTime);
+			asteroids[i].updatePosition(deltaTime, asteroidSpeed);
 			modelShader.use();
 			modelShader.setMat4("view", view);
 			modelShader.setMat4("projection", projection);
@@ -459,12 +430,25 @@ int main()
 			modelShader.setBool("isTextured", true);
 			modelShader.setMat4("model", asteroids[i].getModel());
 			asteroids[i].draw(modelShader);
-			// Remove if passing camera
-			if (asteroids[i].getPosition().z > 1.0f) {
-				asteroids.erase(asteroids.begin() + i);
-				i--; 
+
+			// Reset if passing camera
+			if (asteroids[i].getPosition().z > cameraPosition.z) {
+				float xPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeX;
+				float yPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeY;
+				float zPos = -50.0f; 
+				asteroids[i].setPosition(vec3(xPos, yPos, zPos));
+
+			}
+
+			// Collision detection
+
+			if (playerObstacleCollision(player, asteroids[i]))
+			{
+				cout << "Collision Detected!" << endl;
+				glfwSetWindowShouldClose(window, true);
 			}
 		}
+#
 
 		// Swap buffers and poll events
 		glfwSwapBuffers(window); 
@@ -480,25 +464,29 @@ int main()
 // Collision detection
 bool playerObstacleCollision(const Player& player, const Obstacle& obstacle)
 {
-	vec3 playerHalfSize = player.getScale() * 0.1f;
+
+
 	vec3 playerPos = player.getPosition();
+	vec3 obstaclePos = obstacle.getPosition();
 
 	// World-space bounding box
 	vec3 minBox, maxBox;
 	obstacle.getCollisionBox(minBox, maxBox);
 
+	// Player bounding box
+	vec3 playerMin, playerMax;
+	player.getCollisionBox(playerMin, playerMax);
+
+
 	// Shrink collision box
-	float scaleBox = 0.1f; 
+	float scaleBox = 0.5f; 
 	minBox += vec3(scaleBox);
 	maxBox -= vec3(scaleBox);
 
 	bool playerCollided =
-		(playerPos.x + playerHalfSize.x > minBox.x) &&
-		(playerPos.x - playerHalfSize.x < maxBox.x) &&
-		(playerPos.y + playerHalfSize.y > minBox.y) &&
-		(playerPos.y - playerHalfSize.y < maxBox.y) &&
-		(playerPos.z + playerHalfSize.z > minBox.z) &&
-		(playerPos.z - playerHalfSize.z < maxBox.z);
+		(playerMax.x > minBox.x && playerMin.x < maxBox.x) &&
+		(playerMax.y > minBox.y && playerMin.y < maxBox.y) &&
+		(playerMax.z > minBox.z && playerMin.z < maxBox.z);
 
 	return playerCollided;
 }

@@ -16,24 +16,27 @@ private:
 	glm::vec3 rotationAxis;
 	glm::vec3 scaleAmount;
 
-	float moveSpeed;
+
 	float rotationAngle;
 	float rotationSpeed;
 
 	glm::vec3 modelMin;
 	glm::vec3 modelMax;
+	Model* obstacleModel;
+	
 
 
 
 public:
     
-    Obstacle(const std::string& path, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount);
+    Obstacle(Model* model, glm::vec3 position, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount);
 	void draw(Shader& shader);
-	void updatePosition(float deltaTime);
+	void updatePosition(float deltaTime, float asteroidSpeed);
     glm::vec3 getPosition() const { return position; }
+	void setPosition(const glm::vec3& pos) { position = pos; }
 	glm::mat4 getModel() const;
     glm::vec3 getScale() const { return scaleAmount; }
-	Model obstacleModel;
+	
 	void createCollisionBox();
 	void getCollisionBox(glm::vec3& minOut, glm::vec3& maxOut) const;
 }; 

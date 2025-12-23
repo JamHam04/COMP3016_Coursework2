@@ -11,11 +11,17 @@
 class Player
 {
 private:
-	Model shipModel;
+	Model playerModel;
 	glm::vec3 position;
 	float moveSpeed;
 	glm::vec3 scaleAmount;
 	float rotationAngle;
+
+
+	glm::vec3 modelMin;
+	glm::vec3 modelMax;
+	glm::vec3 modelCenter;
+	glm::vec3 modelHalfSize;
 
 
 public:
@@ -25,5 +31,7 @@ public:
 	glm::vec3 getPosition() const { return position; }
 	glm::mat4 getModel() const;
 	glm::vec3 getScale() const { return scaleAmount; }
+	void createCollisionBox();
+	void getCollisionBox(glm::vec3& minOut, glm::vec3& maxOut) const;
 };
 

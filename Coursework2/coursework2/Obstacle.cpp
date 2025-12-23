@@ -1,7 +1,7 @@
 #include "Obstacle.h"
 
-Obstacle::Obstacle(const std::string& path, glm::vec3 position, float moveSpeed, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount)
-	: obstacleModel(path), position(position), moveSpeed(moveSpeed), rotationAngle(rotationAngle), rotationAxis(rotationAxis), rotationSpeed(rotationSpeed), scaleAmount(scaleAmount)
+Obstacle::Obstacle(Model* model, glm::vec3 position, float rotationAngle, float rotationSpeed, glm::vec3 rotationAxis, glm::vec3 scaleAmount)
+	: obstacleModel(model), position(position), rotationAngle(rotationAngle), rotationAxis(rotationAxis), rotationSpeed(rotationSpeed), scaleAmount(scaleAmount)
 {
 	createCollisionBox();
 }
@@ -9,13 +9,13 @@ Obstacle::Obstacle(const std::string& path, glm::vec3 position, float moveSpeed,
 
 void Obstacle::draw(Shader& shader) 
 {
-    obstacleModel.Draw(shader);
+    obstacleModel->Draw(shader);
 
 }
 
- void Obstacle::updatePosition(float deltaTime)
+ void Obstacle::updatePosition(float deltaTime, float asteroidSpeed)
  {
-     position.z += moveSpeed * deltaTime;
+     position.z += asteroidSpeed * deltaTime;
 	 rotationAngle += rotationSpeed * deltaTime; 
  }
 
@@ -37,7 +37,7 @@ void Obstacle::draw(Shader& shader)
      modelMax = glm::vec3(std::numeric_limits<float>::lowest());
      
      // Iterate through all vertices of the obstacle model
-     for (const auto& mesh : obstacleModel.meshes)
+     for (const auto& mesh : obstacleModel->meshes)
      {
          for (const auto& vertex : mesh.vertices)
          {
@@ -87,3 +87,4 @@ void Obstacle::draw(Shader& shader)
      minOut = minP;
      maxOut = maxP;
  }
+
