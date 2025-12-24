@@ -37,10 +37,12 @@ void main()
     // Specular 
     vec3 viewDir = normalize(viewPos - FragPos); // Calculate view direction
     vec3 halfwayDir = normalize(lightDir + viewDir); // Halfway between light and view
-    float spec = pow(max(dot(norm, halfwayDir), 0.0), 16.0); // Calculate specular (16 shininess
-    vec3 specular = spec * lightColor * 0.2; // Apply specular (0.2 intensity)
+    float spec = pow(max(dot(norm, halfwayDir), 0.0), 32.0); // Calculate specular (16 shininess
+    vec3 specular = spec * lightColor * 0.7; // Apply specular (0.2 intensity)
 
     vec3 lighting = ambient + diffuse + specular; // Combine lighting
+
+
 
     // Use texture, default to orange if no texture
     vec4 baseColor = isTextured ? texture(texture_diffuse1, TexCoords) : modelColor; // orange

@@ -1,0 +1,5 @@
+# Blender 4.5.4 LTS MTL File: 'None'
+# www.blender.org
+
+newmtl Planet3Material
+map_Kd Planet3Texture.png
