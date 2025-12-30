@@ -2,7 +2,6 @@
 # Compiled object files
 # ==============================
 *.o
-*.obj
 *.slo
 *.lo
 
