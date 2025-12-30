@@ -25,9 +25,6 @@
 using namespace std;
 using namespace glm;
 
-// Shader program
-GLuint program;
-
 // Matrices
 mat4 view;
 mat4 projection;
@@ -45,7 +42,7 @@ float lastFrame = 0.0f;
 float timeElapsed = 0.0f;
 float gameScore = 0.0f;
 
-const int maxAsteroids = 25;
+const int maxAsteroids = 24;
 vector<Obstacle> asteroids; 
 
 float spawnRangeX = 2.0f; 
@@ -53,7 +50,9 @@ float spawnRangeY = 1.5f;
 float asteroidSpeed = 2.0f;
 float asteroidSpawnInterval = 2.0f;
 
-
+// Window Size
+int windowWidth = 1920;
+int windowHeight = 1080;
 
 void spawnAsteroid(Model* models, float spawnRangeX, float spawnRangeY, vector<Obstacle>& asteroids) {
 	int modelIndex = rand() % 3;
@@ -64,6 +63,7 @@ void spawnAsteroid(Model* models, float spawnRangeX, float spawnRangeY, vector<O
 	float xPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeX;
 	float yPos = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeY;
 
+
 	// Random movement and rotation
 	float rotationSpeed = 0.5f + static_cast<float>(rand() % 5) * 0.2f;
 	vec3 rotationAxis = vec3(static_cast<float>(rand() % 100) / 100.0f, static_cast<float>(rand() % 100) / 100.0f, static_cast<float>(rand() % 100) / 100.0f);
@@ -72,11 +72,68 @@ void spawnAsteroid(Model* models, float spawnRangeX, float spawnRangeY, vector<O
 	asteroids.push_back(Obstacle(model, vec3(xPos, yPos, -20.0f), 0.0f, rotationSpeed, rotationAxis, vec3(1.0f)));
 }
 
+// Game loop functions
+void updateGame()
+{
+	// Asterpod speed increase over time
+	asteroidSpeed = 2.0f + (timeElapsed / 20.0f);
+
+	// Game score
+	gameScore = timeElapsed * asteroidSpeed;
+
+	cout << "Score: " << static_cast<int>(gameScore)
+		<< " | Time Elapsed: " << static_cast<int>(timeElapsed) << "s   \r";
+}
+
+
+void updateCamera(const Player& player, GLFWwindow* window)
+{
+	// camera follew player
+	cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
+
+	// Background
+	glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
+
+	// Camera
+	view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
+	projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
+
+	// Camera tilt based on mouse position
+	double mouseX, mouseY;
+	glfwGetCursorPos(window, &mouseX, &mouseY);
+
+	// Normalize mouse pos to screen size
+	float normalX = (mouseX / windowWidth) * 2.0f - 1.0f;
+	float normalY = (mouseY / windowHeight) * 2.0f - 1.0f;
+
+	// Max camera tilt angle
+	float maxAngle = radians(3.0f);
+
+	// Limit to max movement angle
+	float deltaX = normalX * maxAngle;
+	float deltaY = normalY * maxAngle;
+
+	// Smooth mouse movenet
+	static float smoothedX = 0.0f;
+	static float smoothedY = 0.0f;
+	float smoothFactor = 0.12f;
+
+	smoothedX = mix(smoothedX, deltaX, smoothFactor);
+	smoothedY = mix(smoothedY, deltaY, smoothFactor);
+
+	// Apply tilt
+	mat4 cameraTilt = rotate(mat4(1.0f), smoothedX, vec3(0, 1, 0));
+	cameraTilt = rotate(cameraTilt, smoothedY, vec3(1, 0, 0));
+
+	// Set view 
+	view = cameraTilt * lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
+}
+
+
+
 int main()
 {
-	// Window Size
-	int windowWidth = 1920;
-	int windowHeight = 1080;
+
 
 	// Initialize GLFW
 	glfwInit();
@@ -178,23 +235,33 @@ int main()
 
 	Player player("textures/ship/playerShip.obj", glm::vec3(0.0f, 0.0f, 0.0f), 1.0f, glm::vec3(0.025f), 0.0f);
 
-
-	float asteroidsSpawned = 0.5f;
 	glEnable(GL_DEPTH_TEST);
 
 	const int starCount = 250;
 	vector<vec3> starPositions(starCount);
+	float starSpawnRangeX = 60.0f;
+	float starSpawnRangeY = 40.0f;
 
 	// Star Spawning positions
 	for (int i = 0; i < starCount; i++) {
 		float noiseX = starNoise.GetNoise(i + 0.0f, i + 100.0f);
 		float noiseY = starNoise.GetNoise(i + 100.0f, i + 0.0f);
-		float spawnRangeX = 60.0f;
-		float spawnRangeY = 40.0f;
-		noiseX *= spawnRangeX;
-		noiseY *= spawnRangeY;
+
+		noiseX *= starSpawnRangeX;
+		noiseY *= starSpawnRangeY;
 		float zPos = -50.0f - static_cast<float>(rand() % 100); // Random 
 		starPositions[i] = vec3(noiseX, noiseY, zPos);
+	}
+
+	// Background star positions
+	const int backgroundStarCount = 150;
+	vector<vec3> backgroundStarPositions(backgroundStarCount);
+
+	for (int i = 0; i < backgroundStarCount; i++) {
+		float x = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeX;
+		float y = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * spawnRangeY;
+		float z = ((rand() / (float)RAND_MAX) * 2.0f - 1.0f) * 100.0f - 50.0f;
+		backgroundStarPositions[i] = vec3(x, y, z);
 	}
 
 	// Asteroid Initial Spawns
@@ -220,65 +287,29 @@ int main()
 		lastFrame = currentFrame;
 		timeElapsed += deltaTime;
 
-		// Asterpod speed increase over time
-		asteroidSpeed = 2.0f + (timeElapsed / 20.0f);
-
-		// Game score
-		gameScore = timeElapsed * asteroidSpeed;
-
-		cout << "Score: " << static_cast<int>(gameScore) 
-			<< " | Time Elapsed: " << static_cast<int>(timeElapsed) << "s   \r";
+		// Update score
+		updateGame();
 		
+
 		// Input
 		processUserInput(window, player, deltaTime);
 
-		// cam follew player (TESTING)
-		cameraPosition = vec3(player.getPosition().x, player.getPosition().y, cameraPosition.z);
+		// Update Camera
+		updateCamera(player, window);
 
-		// Background
-		glClearColor(0.0f, 0.0f, 0.1f, 1.0f); 
-		
-		// Camera
-		view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
-		projection = perspective(radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
 
-		// Camera tilt based on mouse position
-		double mouseX, mouseY;
-		glfwGetCursorPos(window, &mouseX, &mouseY);
-
-		// Normalize mouse pos to screen size
-		float normalX = (mouseX / windowWidth) * 2.0f - 1.0f;
-		float normalY = (mouseY / windowHeight) * 2.0f - 1.0f;
-
-		// Max camera tilt angle
-		float maxAngle = radians(3.0f);
-
-		// Limit to max movement angle
-		float deltaX = normalX * maxAngle;
-		float deltaY = normalY * maxAngle;
-
-		// Smooth mouse movenet
-		static float smoothedX = 0.0f;
-		static float smoothedY = 0.0f;
-		float smoothFactor = 0.12f;
-
-		smoothedX = mix(smoothedX, deltaX, smoothFactor);
-		smoothedY = mix(smoothedY, deltaY, smoothFactor);
-
-		// Apply tilt
-		mat4 cameraTilt = rotate(mat4(1.0f), smoothedX, vec3(0, 1, 0));
-		cameraTilt = rotate(cameraTilt, smoothedY, vec3(1, 0, 0));
-
-		// Set view 
-		view = cameraTilt * lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
-
-		// Game Boundary MVP
+		// Set model shader uniforms
 		modelShader.use();
-		mat4 borderModel = mat4(1.0f);
-
-		modelShader.setMat4("model", borderModel);
 		modelShader.setMat4("view", view);
 		modelShader.setMat4("projection", projection);
+		modelShader.setVec3("viewPos", cameraPosition);
+		modelShader.setVec3("lightPos", vec3(-80.0f, 10.0f, -90.0f));
+
+		// Game Boundary MVP
+		mat4 borderModel = mat4(1.0f);
+
+
+		modelShader.setMat4("model", borderModel);
 		modelShader.setBool("isTextured", false);
 		modelShader.setBool("lightEnabled", false);
 		modelShader.setVec4("modelColor", vec4(0.4, 0.8, 1.0, 0.6));
@@ -303,6 +334,7 @@ int main()
 				starPositions[i] = vec3(noiseX, noiseY, zPos);
 			}
 		}
+
 		// Draw as points
 		modelShader.setVec4("modelColor", vec4(1.0));
 		glPointSize(2.0f);
@@ -312,16 +344,18 @@ int main()
 		for (const auto& star : starPositions) {
 			glVertex3f(star.x, star.y, star.z);
 		}
+		for (const auto& star : backgroundStarPositions) {
+			glVertex3f(star.x, star.y, star.z);
+		}
 		glEnd();
 
-		float lightGlow = 1.0f + 0.1f * (sin(timeElapsed));
+		vec3 lightColor = vec3(3.0f, 3.0f, 2.6f) * (1.0f + 0.2f * sin(timeElapsed));
+		modelShader.setVec3("lightColor", lightColor);
 
-		modelShader.setVec3("lightPos", vec3(-80.0f, 10.0f, -90.0f));
-		modelShader.setVec3("lightColor", vec3(2.0f, 2.0f, 1.6f) * lightGlow);
+		modelShader.setVec3("lightPos", vec3(-80.0f, 10.0f, -90.0f)); // Sun position
+
+
 		// SIGNATURE
-
-		modelShader.use();
-
 		mat4 sigModel = mat4(1.0f);
 		sigModel = translate(sigModel, vec3(1.0f, -2.0f, -1.0f));
 		
@@ -330,8 +364,6 @@ int main()
 		sigModel = rotate(sigModel, radians(signatureAngle), vec3(1.0f));
 		sigModel = scale(sigModel, vec3(0.3f));
 
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
 		modelShader.setMat4("model", sigModel);
 
 		modelShader.setBool("isTextured", false);
@@ -344,16 +376,7 @@ int main()
 
 
 		// PLAYER
-		modelShader.use();
-
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
 		modelShader.setMat4("model", player.getModel());
-
-		
-		
-		modelShader.setVec3("viewPos", cameraPosition);
-
 		modelShader.setBool("isTextured", false);
 		modelShader.setBool("lightEnabled", true);
 		modelShader.setVec4("modelColor", vec4(1.0, 0.25, 0.0, 1.0)); // Orange color
@@ -365,10 +388,7 @@ int main()
 		// Draw asteroids
 		for (size_t i = 0; i < asteroids.size(); i++) {
 			asteroids[i].updatePosition(deltaTime, asteroidSpeed);
-			modelShader.use();
-			modelShader.setMat4("view", view);
-			modelShader.setMat4("projection", projection);
-			modelShader.setVec3("lightPos", vec3(2.0f * deltaTime)); // Animate light position
+			//modelShader.setVec3("lightPos", vec3(2.0f * deltaTime)); // Animate light position
 			modelShader.setBool("isTextured", true);
 			modelShader.setMat4("model", asteroids[i].getModel());
 			asteroids[i].draw(modelShader);
@@ -391,64 +411,24 @@ int main()
 		}
 
 
-		// PLANET 1
-		modelShader.use();
-		mat4 planetModel = mat4(1.0f);
-		planetModel = translate(planetModel, vec3(-20.0f, 3.0f, -100.0f));
-		planetModel = translate(planetModel, vec3(0.0f, 0.0f, 0.3f * timeElapsed));
-		planetModel = rotate(planetModel, radians(timeElapsed * 5.0f), vec3(0.0f, 1.0f, 0.0f));
-		planetModel = scale(planetModel, vec3(15.0f));
+		// DRAW PLANETS
 
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
-		modelShader.setMat4("model", planetModel);
-		modelShader.setBool("isTextured", true);
+		Planet planet1(planet1Model, vec3(-20, 3, -100), vec3(15.0f), vec3(0.0f, 1.0f, 0.0f), radians(5.0f), vec3(0.0f, 0.0f, 0.3f));
+		Planet planet2(planet2Model, glm::vec3(15.0f, -4.0f, -80.0f), glm::vec3(8.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::radians(8.0f), glm::vec3(0.0f, 0.0f, 0.6f));
+		Planet planet3(planet3Model, glm::vec3(-80.0f, 10.0f, -90.0f), glm::vec3(40.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::radians(1.0f), glm::vec3(0.0f, 0.0f, 0.01f));
+		Planet planet4(planet4Model, glm::vec3(-50.0f, 10.0f, -140.0f), glm::vec3(20.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::radians(2.0f), glm::vec3(0.2f, 0.0f, 0.002f));
 
-		planet1Model.Draw(modelShader);
+		planet1.updatePosition(timeElapsed);
+		planet1.draw(modelShader);
 
-		// PLANET 2
-		modelShader.use();
-		mat4 planet2ModelMat = mat4(1.0f);
-		planet2ModelMat = translate(planet2ModelMat, vec3(15.0f, -4.0f, -80.0f));
-		planet2ModelMat = translate(planet2ModelMat, vec3(0.0f, 0.0f, 0.6f * timeElapsed));
-		planet2ModelMat = rotate(planet2ModelMat, radians(25.0f), vec3(0.0f, 0.0f, 0.4f));
-		planet2ModelMat = rotate(planet2ModelMat, radians(timeElapsed * 8.0f), vec3(0.0f, -1.0f, 0.0f));
-		planet2ModelMat = scale(planet2ModelMat, vec3(8.0f));
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
-		modelShader.setMat4("model", planet2ModelMat);
-		modelShader.setBool("isTextured", true);
+		planet2.updatePosition(timeElapsed);
+		planet2.draw(modelShader);
 
-		planet2Model.Draw(modelShader);
+		planet3.updatePosition(timeElapsed);
+		planet3.draw(modelShader);
 
-		// PLANET 3
-		modelShader.use();
-		mat4 planet3ModelMat = mat4(1.0f);
-		planet3ModelMat = translate(planet3ModelMat, vec3(-80.0f, 10.0f, -90.0f));
-		planet3ModelMat = translate(planet3ModelMat, vec3(0.0f, 0.0f, 0.01f * timeElapsed));
-		planet3ModelMat = rotate(planet3ModelMat, radians(15.0f), vec3(0.4f, 0.0f, 0.0f));
-		planet3ModelMat = rotate(planet3ModelMat, radians(timeElapsed * 1.0f), vec3(0.0f, 1.0f, 0.0f));
-		planet3ModelMat = scale(planet3ModelMat, vec3(40.0f));
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
-		modelShader.setMat4("model", planet3ModelMat);
-		modelShader.setBool("isTextured", true);
-		planet3Model.Draw(modelShader);
-
-		// PLANET 4
-		modelShader.use();
-		mat4 planet4ModelMat = mat4(1.0f);
-		planet4ModelMat = translate(planet4ModelMat, vec3(-50.0f, 10.0f, -140.0f));
-		planet4ModelMat = translate(planet4ModelMat, vec3(0.2f * timeElapsed, 0.0f, 0.002f * timeElapsed));
-		planet4ModelMat = rotate(planet4ModelMat, radians(30.0f), vec3(0.0f, 0.4f, 0.0f));
-		planet4ModelMat = rotate(planet4ModelMat, radians(timeElapsed * 2.0f), vec3(1.0f, 0.0f, 0.0f));
-		planet4ModelMat = scale(planet4ModelMat, vec3(20.0f));
-		modelShader.setMat4("view", view);
-		modelShader.setMat4("projection", projection);
-		modelShader.setMat4("model", planet4ModelMat);
-		modelShader.setBool("isTextured", true);
-		planet4Model.Draw(modelShader);
-
+		planet4.updatePosition(timeElapsed);
+		planet4.draw(modelShader);
 
 		// Swap buffers and poll events
 		glfwSwapBuffers(window); 
@@ -520,5 +500,3 @@ void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime)
 
 	player.updatePosition(moveDirection, deltaTime);
 }
-
-

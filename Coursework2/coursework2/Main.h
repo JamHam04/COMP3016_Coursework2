@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Player.h"
 #include "Obstacle.h"
+#include "Planet.h"
 
 // Called when the framebuffer window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

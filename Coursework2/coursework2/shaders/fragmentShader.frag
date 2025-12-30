@@ -21,14 +21,18 @@ uniform bool isTextured;
 uniform bool lightEnabled;
 uniform vec4 modelColor;
 
+
 void main()
 {
 
     vec3 norm = normalize(Normal); // Normalize
     vec3 lightDir = normalize(lightPos - FragPos); // Light direction
 
+
+
     // Ambient (global light)
-    vec3 ambient = 0.1 * lightColor; // Brightness + color
+    vec3 ambient = 0.4 * lightColor; // Brightness + color
+
 
     // Diffuse 
     float diff = max(dot(norm, lightDir), 0.0); 
@@ -37,8 +41,8 @@ void main()
     // Specular 
     vec3 viewDir = normalize(viewPos - FragPos); // Calculate view direction
     vec3 halfwayDir = normalize(lightDir + viewDir); // Halfway between light and view
-    float spec = pow(max(dot(norm, halfwayDir), 0.0), 32.0); // Calculate specular (16 shininess
-    vec3 specular = spec * lightColor * 0.7; // Apply specular (0.2 intensity)
+    float spec = pow(max(dot(norm, halfwayDir), 0.0), 64.0); // Calculate specular (16 shininess
+    vec3 specular = spec * lightColor * 0.9; // Apply specular (0.2 intensity)
 
     vec3 lighting = ambient + diffuse + specular; // Combine lighting
 
