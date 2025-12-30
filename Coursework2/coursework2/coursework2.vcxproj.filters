@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="coursework2.cpp" />
+    <ClCompile Include="LoadShaders.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="glad.c" />
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="model.cpp">
+      <Filter>Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="Stars.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="LoadShaders.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGL\include\modelShaders\mesh.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGL\include\modelShaders\model.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGL\include\modelShaders\shader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGL\include\modelShaders\shader_m.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FastNoiseLite.h" />
+    <ClInclude Include="Planet.h" />
+    <ClInclude Include="Stars.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{e4615187-b82e-450a-9a63-50ab0aef2af6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
