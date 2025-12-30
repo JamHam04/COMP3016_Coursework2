@@ -9,10 +9,10 @@ void Planet::draw(Shader& shader)
 	shader.setMat4("model", getModel());
 	planetModel.Draw(shader);
 }
- void Planet::updatePosition(float timeElapsed)
+ void Planet::updatePosition(float deltaTime)
  {
-	 rotationAngle += rotationSpeed * timeElapsed;
-	 position += drift * timeElapsed;
+	 rotationAngle += rotationSpeed * deltaTime;
+	 position += drift * deltaTime;
  }
 
  // Set model
