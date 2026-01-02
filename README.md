@@ -1,6 +1,11 @@
 Space Runner OpenGL Game
 ==========================
 
+Video
+====================
+Video Link: https://youtu.be/Jkw1_haSXmQ
+
+====================
 A C++ and OpenGL 4.X real-time 3D space runner prototype with interactive gameplay, player movement, collisions, dynamically spawning asteroids, animated planets, camera movement, particle-style starfield and shader-based rendering.
 
 This report provides an overview of the system, technical implementation, and development considerations.
