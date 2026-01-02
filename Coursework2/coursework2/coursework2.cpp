@@ -213,6 +213,7 @@ void processUserInput(GLFWwindow* WindowIn, Player& player, float deltaTime)
 	player.updatePosition(moveDirection, deltaTime);
 }
 
+
 // MAIN 
 int main()
 {
@@ -302,7 +303,7 @@ int main()
 		spawnAsteroid(asteroidModels, spawnRangeX, spawnRangeY, asteroids);
 
 		// Spawn every 2 along z-axis
-		float zPos = -2.0f * i;
+		float zPos = -25.0f + -2.0f * i;
 		asteroids[i].setPosition(vec3(asteroids[i].getPosition().x, asteroids[i].getPosition().y, zPos));
 	}
 
